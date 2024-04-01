@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm  # Assuming you have a form for purchase details
-from django.views import TemplateView
+from django.views.generic.base import TemplateView
 from django.db.models import Sum
 
 # Create your views here.

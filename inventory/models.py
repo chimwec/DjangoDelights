@@ -55,7 +55,7 @@ class RecipeRequirement(models.Model):
     # required ingredient and quantity. Also links to the recipe itself as a ))
     # foreign key to confirm the recipe.
     id = models.AutoField(primary_key=True)
-    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, default=1)
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
 
