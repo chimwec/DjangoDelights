@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm  # Assuming you have a form for purchase details
+from django.views import TemplateView
+from django.db.models import Sum
 
 # Create your views here.
 def home(request):
@@ -32,3 +34,19 @@ def purchase_item(request):
         # GET request - Display your form
         form = PurchaseForm()
         return render(request, 'purchase_form.html', {'form': form})
+
+
+class InventoryView(TemplateView):
+    template_name = 'inventory_app/inventory.html'  # Adjust template path
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_inventory'] = Ingredient.objects.all()
+        context['purchases'] = Purchase.objects.all()
+        context['menu'] = MenuItem.objects.all()
+        context['total_purchases'] = Purchase.objects.aggregate(total_purchases=Sum('quantity'))['total_purchases']
+        context['total_revenues'] = Purchase.objects.aggregate(total_revenues=Sum('menu_item__price_per_unit'))['total_revenues']
+        context['total_costs'] = context['total_revenues'] - context['total_purchases']
+        context['profit'] = context['total_revenues'] - context['total_costs']
+        # ... other queries and calculations ...
+        return context

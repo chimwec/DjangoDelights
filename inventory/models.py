@@ -52,7 +52,7 @@ class Ingredient(models.Model):
 class RecipeRequirement(models.Model):
     # represents a single ingredient and how much of it is required for an item off the menu
     # Models a requirement for a recipe (menu item). Links the menu item to the 
-    # required ingredient and quantity. Also links to the recipe itself as a 
+    # required ingredient and quantity. Also links to the recipe itself as a ))
     # foreign key to confirm the recipe.
     id = models.AutoField(primary_key=True)
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, default=1)
