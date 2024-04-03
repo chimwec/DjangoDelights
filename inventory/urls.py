@@ -1,8 +1,9 @@
 from django.urls import path, include
 from . import views
-from .views import PurchaseForm
+from .views import PurchaseForm, InventoryView
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('purchase_item/', views.PurchaseForm, name='purchase_item'),
+    path('inventory/', InventoryView.as_view(), name='inventory'),
 ]

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 # Create your models here.
@@ -82,3 +83,33 @@ class Purchase(models.Model):
 
     def __str__(self):
         return f"{self.menu_item.name} - Quantity: {self.quantity}, Price: {self.price}, Timestamp: {self.timestamp}"
+
+
+from django.db.models import Sum
+from inventory.models import MenuItem, Ingredient, RecipeRequirement, Purchase
+
+# What is currently in the restaurant’s inventory?
+def get_inventory():
+    return Ingredient.objects.all()
+
+# What purchases have been made?
+def get_purchases():
+    return Purchase.objects.all()
+
+# What does the restaurant’s menu look like?
+def get_menu():
+    return MenuItem.objects.all()
+
+# What is the total revenue for the restaurant’s overall recorded purchases?
+def get_total_revenue():
+    return Purchase.objects.aggregate(total_revenue=Sum('total_cost'))['total_revenue'] or 0
+
+# What is the total cost to the restaurant’s overall purchases made?
+def get_total_cost():
+    return RecipeRequirement.objects.aggregate(total_cost=Sum('ingredient__cost'))['total_cost'] or 0
+
+# How much profit (revenue - cost) does the restaurant make?
+def get_profit():
+    total_revenue = get_total_revenue()
+    total_cost = get_total_cost()
+    return total_revenue - total_cost
