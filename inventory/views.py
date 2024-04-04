@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm  # Assuming you have a form for purchase details
-from django.views.generic.base import TemplateView, ListView
+from django.views.generic import TemplateView, ListView
 from django.db.models import Sum
 
 # Create your views here.
@@ -11,13 +11,13 @@ def home(request):
 
 
 # this is a view that will show all the ingredient
-class IngredientView(ListView):
+class IngredientList(ListView):
     template_name = 'inventory/ingredient.html'
 
 
 
 #this view will show the menu items
-class MenuView(ListView):
+class MenuList(ListView):
     template_name = 'inventory/menu.html'
 
 
