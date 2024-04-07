@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Menu{% endblock %}</title>
+    {% block head %}
+    {% endblock %}
 </head>
+
 <body>
-    <h1>Menu</h1>
+    <a href="{% url 'home' %}">Inventory</a>
+    <h1>Welcome to the Restaurants Inventory</h1>
+    {% block content %}
+    {% endblock %}
 </body>
-</html>

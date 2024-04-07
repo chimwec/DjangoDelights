@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm  # Assuming you have a form for purchase details
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
+from django.views.generic.edit import DeleteView
 
 # Create your views here.
 def home(request):
@@ -10,16 +11,37 @@ def home(request):
 
 
 
-# this is a view that will show all the ingredient
+# this is a view that will show a list of ingredient
 class IngredientList(ListView):
-    template_name = 'inventory/ingredient.html'
+    model = Ingredient
+    template_name = 'inventory/ingredient_list.html'
 
 
+# this view is for deleting ingredients
+class IngredientDelete(DeleteView):
+    model = Ingredient
+    template_name = 'inventory/ingredient_delete_form.html'
 
-#this view will show the menu items
-class MenuList(ListView):
-    template_name = 'inventory/menu.html'
 
+# this view will show the menu items
+class MenuItem(ListView):
+    model = MenuItem
+    template_name = 'inventory/menu_list.html'
+
+# this view shows the purchses made 
+class Purchase(DetailView):
+    model = Purchase
+    template_name = 'inventory/purchase.html'
+
+
+# this view is to show profit
+class Profit(TemplateView):
+    template_name = 'inventory/profit.html'
+
+
+# this view shows the revenue
+class Revenue(TemplateView):
+    template_name = 'inventory/revenue.html'
 
 
 # this view is a purchase form 
@@ -70,3 +92,6 @@ class InventoryView(TemplateView):
         context['profit'] = context['total_revenues'] - context['total_costs']
         # ... other queries and calculations ...
         return context
+    
+
+
