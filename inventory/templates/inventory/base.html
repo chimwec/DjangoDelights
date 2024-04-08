@@ -1,12 +1,26 @@
 <!DOCTYPE html>
+<html>
 <head>
     {% block head %}
+
     {% endblock %}
 </head>
 
 <body>
     <a href="{% url 'home' %}">Inventory</a>
     <h1>Welcome to the Restaurants Inventory</h1>
+    
+
+    <nav class="navbar">
+        <a class="nav-item" href="{% url 'home' %}">Home</a>
+        <a class="nav-item"href="{% url 'Ingredient' %}">Ingredient</a>
+        <a class="nav-item" href="{% url 'MenuItem' %}">Menu</a>
+        <a class="nav-item" href="{% url 'Inventory' %}">Inventory</a>
+      </nav>
+      
+
     {% block content %}
+    <a href="{% url 'home' %}">Back home</a>
     {% endblock %}
 </body>
+</html>

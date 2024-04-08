@@ -83,3 +83,9 @@ class Purchase(models.Model):
 
     def __str__(self):
         return f"{self.menu_item.name} - Quantity: {self.quantity}, Price: {self.price}, Timestamp: {self.timestamp}"
+    
+
+
+class Inventory(models.Model):
+    Ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    quantity_available =  models.DecimalField(max_digits=10, decimal_places=2)

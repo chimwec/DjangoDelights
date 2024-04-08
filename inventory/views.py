@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
+from .models import MenuItem, Ingredient, RecipeRequirement, Purchase, Inventory
 from .forms import PurchaseForm  # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
@@ -12,9 +12,10 @@ def home(request):
 
 
 # this is a view that will show a list of ingredient
-class IngredientList(ListView):
+class Ingredient(ListView):
     model = Ingredient
-    template_name = 'inventory/ingredient_list.html'
+    template_name = 'inventory/ingredient.html'
+    context_object_name = 'data'
 
 
 # this view is for deleting ingredients
@@ -26,7 +27,10 @@ class IngredientDelete(DeleteView):
 # this view will show the menu items
 class MenuItem(ListView):
     model = MenuItem
-    template_name = 'inventory/menu_list.html'
+    template_name = 'inventory/menu.html'
+
+
+
 
 # this view shows the purchses made 
 class Purchase(DetailView):
@@ -78,20 +82,23 @@ def purchase_item(request):
         return render(request, 'purchase_form.html', {'form': form})
 
 # this view is showing the inventory
-class InventoryView(TemplateView):
+class Inventory(ListView):
+    model = Inventory
     template_name = 'inventory/inventory.html'  # Adjust template path
+    context_object_name = 'inventory'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['current_inventory'] = Ingredient.objects.all()
-        context['purchases'] = Purchase.objects.all()
-        context['menu'] = MenuItem.objects.all()
-        context['total_purchases'] = Purchase.objects.aggregate(total_purchases=Sum('quantity'))['total_purchases']
-        context['total_revenues'] = Purchase.objects.aggregate(total_revenues=Sum('menu_item__price_per_unit'))['total_revenues']
-        context['total_costs'] = context['total_revenues'] - context['total_purchases']
-        context['profit'] = context['total_revenues'] - context['total_costs']
-        # ... other queries and calculations ...
-        return context
+    def get_quaryset(self):
+        menus = MenuItem.objects.all()
+
+        # calculating total required quantity of each ingredient
+        Ingredient_quantity_map = {}
+        for menu in menus:
+            for ingredient in menu.ingredients.all():
+                if ingredient in Ingredient_quantity_map:
+                    Ingredient_quantity_map[ingredient] += 1
+                else:
+                    Ingredient_quantity_map[ingredient] = 1
+
     
 
 
