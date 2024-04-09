@@ -3,4 +3,7 @@
 
 
 {% block content %}
+{% for item in data %}
+  <li>{{ item.name }} - {{ item.available_quantity }}</li>
+{% endfor %}
 {% endblock %}

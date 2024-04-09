@@ -89,3 +89,4 @@ class Purchase(models.Model):
 class Inventory(models.Model):
     Ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity_available =  models.DecimalField(max_digits=10, decimal_places=2)
+    MenuItem = models.CharField(max_length=50)
