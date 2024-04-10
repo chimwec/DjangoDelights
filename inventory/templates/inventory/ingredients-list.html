@@ -1,6 +1,6 @@
-
 {% extends 'inventory/base.html' %}
 {% load static %}
+
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'inventory/style.css' %}">
@@ -10,23 +10,24 @@
 <div class="table-page">
   <div class="table-content">
     <hr class="line">
-    <h2>Available Menu Items</h2>
+    <h2>Ingredients in the inventory</h2>
     <table class="table">
       <tr class="table-header">
         <tr class="">
-          <th class="header-row-1" >Title</th>
-          <th class="header-row-1">Price</th>
+          <th class="header-row-1">Name</th>
+          <th class="header-row-1">Quantity</th>
           <th class="header-row-2">Actions</th>
         </tr>
       </tr>
 
-      {% for item in MenuItem %}
+      {% for ingredient in ingredients %}
         <tr>
-          <td class="table-row-1">{{ item.name }} </td>
-          <td class="table-row-2">{{ item.price }}</td>
+          <td class="table-row-1">{{ ingredient.name }} </td>
+          <td class="table-row-2">{{ ingredient.quantity }} </td>
         </tr>
       {% endfor %}
     </table>
   </div>
+  <a href="{% url 'home' %}">Back home</a>
 </div>
 {% endblock %}
