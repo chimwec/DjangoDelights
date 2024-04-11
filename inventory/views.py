@@ -1,7 +1,7 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
-from .models import MenuItem, Ingredient, RecipeRequirement, Purchase, Inventory
+from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm  # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
@@ -10,8 +10,15 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 
 # Create your views here.
-def home(request):
-    return render(request, 'inventory/home.html')
+class home(TemplateView):
+   template_name = 'inventory/home.html'
+
+   def get_context_data(self):
+       context = super().get_context_data()
+       context["ingredients"] = Ingredient.objects.all()
+       context["menu"] = MenuItem.objects.all()
+       context["purchase"] = Purchase.objects.all()
+       return context
 
 
 
@@ -32,17 +39,21 @@ class IngredientDelete(DeleteView):
 
 
 # this view will show the menu items
-class MenuItem(ListView):
+class MenuItemListView(ListView):
     model = MenuItem
     template_name = 'inventory/menu.html'
-    context_object_name = 'MenuItem'
+    context_object_name = 'menu'
+
+
+    def get_queryset(self):
+        return MenuItem.objects.all()
 
 
 # this view shows the purchses made 
-class Purchase(DetailView):
+class PurchaseListView(ListView):
     model = Purchase
     template_name = 'inventory/purchase.html'
-    get_context_data = 'data'
+
 
 
 class PurchaseCreate(CreateView):
@@ -90,15 +101,6 @@ class Profit(TemplateView):
 # this view shows the revenue
 class Revenue(TemplateView):
     template_name = 'inventory/revenue.html'
-
-
-# this view is showing the inventory
-class Inventory(ListView):
-    model = Inventory
-    template_name = 'inventory/inventory.html'  # Adjust template path
-    context_object_name = 'inventory'
-
-    queryset = Inventory.objects.filter()
     
 
 

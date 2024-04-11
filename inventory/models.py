@@ -52,19 +52,19 @@ class RecipeRequirement(models.Model):
         return self.ingredient.name
     
 
-    
 
 class Purchase(models.Model):
     id = models.AutoField(primary_key=True)
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, default=1)
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
+
+    def get_absolute_url(self):
+        return "/purchase"
+
     def __str__(self):
         return f"{self.menu_item} was purchased at {self.timestamp}"
     
 
 
-class Inventory(models.Model):
-    Ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    quantity_available =  models.DecimalField(max_digits=10, decimal_places=2)
-    MenuItem = models.CharField(max_length=50)
+

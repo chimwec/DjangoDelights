@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
+    <title>{% block title %}Restaurants Inventory{% endblock %}</title>
     {% block head %}
     <h1>Welcome to the Restaurants Inventory</h1>
 
@@ -14,9 +15,9 @@
     
     <nav class="navbar">
         <a class="nav-item" href="{% url 'home' %}">Home</a>
-        <a class="nav-item"href="{% url 'ingredients-list' %}">Ingredients</a>
-        <a class="nav-item" href="{% url 'MenuItem' %}">Menu</a>
-        <a class="nav-item" href="{% url 'Inventory' %}">Inventory</a>
+        <a class="nav-item" href="{% url 'ingredients-list' %}">Ingredients</a>
+        <a class="nav-item" href="{% url 'menuitem' %}">Menu</a>
+        <a class="nav-item" href="{% url 'purchase' %}">Purchase</a>
       </nav>
       
 
