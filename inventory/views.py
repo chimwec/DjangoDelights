@@ -2,7 +2,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
-from .forms import PurchaseForm  # Assuming you have a form for purchase details
+from .forms import PurchaseForm, IngredientForm, MenuItemForm# Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
 from django.views.generic.edit import DeleteView, CreateView
@@ -20,8 +20,13 @@ class home(TemplateView):
        context["purchase"] = Purchase.objects.all()
        return context
 
+# this view is to show profit
+class Profit(TemplateView):
+    template_name = 'inventory/profit_revenue.html'
 
 
+# all Listviews below
+    
 # this is a view that will show a list of ingredient
 class IngredientListView(ListView):
     model = Ingredient
@@ -30,12 +35,6 @@ class IngredientListView(ListView):
 
     def get_queryset(self):
         return Ingredient.objects.all()
-    
-
-# this view is for deleting ingredients
-class IngredientDelete(DeleteView):
-    model = Ingredient
-    template_name = 'inventory/ingredient_delete_form.html'
 
 
 # this view will show the menu items
@@ -55,11 +54,25 @@ class PurchaseListView(ListView):
     template_name = 'inventory/purchase.html'
 
 
+# all createview below
+
+class MenuItemCreate(CreateView):
+    model = MenuItem
+    form_class = MenuItemForm
+    template_name = 'inventory/'
+
 
 class PurchaseCreate(CreateView):
     model = Purchase
     form_class = PurchaseForm
     template_name = 'inventory/purchase_create.html'
+
+
+class IngredientCreate(CreateView):
+    model = Ingredient
+    form_class = IngredientForm
+    template_name = 'inventory/ingredient_create.html'
+
 
 
   # decreasing ingredient.quantity because ingredients were used for the purchased menu_item.
@@ -90,17 +103,9 @@ class PurchaseCreate(CreateView):
           return self.render_to_response(self.get_context_data(form=form))
 
 
-      
-
-
-# this view is to show profit
-class Profit(TemplateView):
-    template_name = 'inventory/profit.html'
-
-
-# this view shows the revenue
-class Revenue(TemplateView):
-    template_name = 'inventory/revenue.html'
     
 
-
+# this view is for deleting ingredients
+class IngredientDelete(DeleteView):
+    model = Ingredient
+    template_name = 'inventory/ingredient_delete_form.html'

@@ -1,0 +1,20 @@
+
+{% extends 'inventory/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="table-page">
+    <div class="table-content">
+      <hr class="line">
+      <h2>Profit & Revenue</h2>
+            <td class="table-row-1">{{ profit.name }} </td>
+            <td class="table-row-2">{{ revenue.name }} </td>
+          </tr>
+       
+      </table>
+    </div>
+    <a href="{% url 'home' %}">Back home</a>
+  </div>
+{% endblock %}
