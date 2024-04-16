@@ -74,34 +74,42 @@ class IngredientCreate(CreateView):
     template_name = 'inventory/ingredient_create.html'
 
 
-
   # decreasing ingredient.quantity because ingredients were used for the purchased menu_item.
-    def form_valid(self, form):
-      item = form.save(commit=False)
-      menu_item = MenuItem.objects.get(id = item.menu_item.id)
-      recipe_requirements  = RecipeRequirement.objects.filter(menu_item = menu_item)
-      errors_list = []
+def form_valid(self, form):
+    item = form.save(commit=False)
+    menu_item = MenuItem.objects.get(id = item.menu_item.id)
+    recipe_requirements  = RecipeRequirement.objects.filter(menu_item = menu_item)
+    errors_list = []
 
-      for requirement in recipe_requirements:
+    for requirement in recipe_requirements:
         ingredient = requirement.ingredient
         required_quantity = requirement.quantity
 
 
-        if ingredient.quantity >= required_quantity:
-            ingredient.quantity -= required_quantity
-            ingredient.save()
-        else:
+    if ingredient.quantity >= required_quantity:
+        ingredient.quantity -= required_quantity
+        ingredient.save()
+    else:
             errors_list.append(ingredient.name)
 
-      if not errors_list:
-          item.save()
-          messages.success(self.request, "Purchase successful!")
-          return super().form_valid(form)
-      else:
+    if not errors_list:
+        item.save()
+        messages.success(self.request, "Purchase successful!")
+        return super(self).form_valid(form)
+    else:
           error_string = ", ".join(errors_list)
           messages.error(self.request, f"Not enough ingredients in the inventory: {error_string}")
           return self.render_to_response(self.get_context_data(form=form))
 
+
+# view the profit and revenue for the restaurant.
+def profit_revenue(request):
+    context = {}
+    context["menu"] = MenuItem.objects.all()
+    context["purchase"] = Purchase.objects.all()
+    context["profit"] = Purchase.objects.all().aggregate(Sum('menu_item__price'))
+    context["revenue"] = Purchase.objects.all().aggregate(Sum('menu_item__price'))
+    return render(request, 'inventory/profit_revenue.html', context)
 
     
 
