@@ -1,11 +1,12 @@
 from typing import Any
+from datetime import datetime
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm, IngredientForm, MenuItemForm# Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
-from django.views.generic.edit import DeleteView, CreateView
+from django.views.generic.edit import DeleteView, CreateView, View
 from django.contrib import messages
 from django.urls import reverse_lazy
 
@@ -52,6 +53,36 @@ class MenuItemListView(ListView):
 class PurchaseListView(ListView):
     model = Purchase
     template_name = 'inventory/purchase.html'
+
+# this view gets the purchase and then subtract the inventory
+class PurchaseItemView(View):
+    def post(self, request, menu_item_id):
+        # Retrieve the selected menu item
+        menu_item = MenuItem.objects.get(pk=menu_item_id)
+
+        # Assuming a form is submitted with quantity data
+        quantity = request.POST.get('quantity', 1)  # Default to 1 if not provided
+
+        # Check if there are enough ingredients in inventory
+        if menu_item.has_enough_inventory(int(quantity)):
+            # Record the purchase
+            purchase = Purchase.objects.create(
+                menu_item=menu_item,
+                quantity=quantity,
+                purchase_timestamp=datetime.now()
+            )
+
+            # Update inventory by subtracting required ingredients
+            menu_item.subtract_from_inventory(int(quantity))
+
+            # Redirect to a success page or display a success message
+            return redirect('purchase_success')
+
+        else:
+            # Display error message - insufficient ingredients
+            return render(request, 'purchase_error.html', {'error_message': 'Insufficient ingredients'})
+
+
 
 
 # all createview below
