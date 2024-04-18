@@ -90,7 +90,7 @@ class PurchaseItemView(View):
 class MenuItemCreate(CreateView):
     model = MenuItem
     form_class = MenuItemForm
-    template_name = 'inventory/'
+    template_name = 'inventory/add_menu.html'
 
 
 class PurchaseCreate(CreateView):

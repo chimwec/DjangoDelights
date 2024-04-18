@@ -1,0 +1,9 @@
+{% extends 'inventory/base.html' %} {% load static %} {% block content %}
+<h2>Add a New Ingredients</h2> 
+<form method="post">{% csrf_token %}
+  <div>
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+  </div>
+</form>
+{% endblock %}

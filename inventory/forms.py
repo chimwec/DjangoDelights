@@ -7,13 +7,12 @@ class PurchaseForm(forms.Form):
        model = Purchase
        fields = ['menu_item', 'quantity', 'notes']
 
-class IngredientForm(forms.Form):
-    class Mete:
-      Ingredient = forms.ModelChoiceField(queryset=Ingredient.objects.all())
-      quantity = forms.IntegerField(min_value=1)
-      notes = forms.CharField(max_length=200, required=False)
-
-
-class MenuItemForm(forms.Form):
+class IngredientForm(forms.ModelForm):
     class Meta:
-      MenuItem = forms.ModelChoiceField(queryset=MenuItem.objects.all())
+      model = Ingredient
+      fields = "__all__"
+
+class MenuItemForm(forms.ModelForm):
+    class Meta:
+      model = MenuItem
+      fields = "__all__"
