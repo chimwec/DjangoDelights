@@ -3,7 +3,7 @@ from datetime import datetime
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
-from .forms import PurchaseForm, IngredientForm, MenuItemForm# Assuming you have a form for purchase details
+from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
 from django.views.generic.edit import DeleteView, CreateView, View
@@ -47,6 +47,33 @@ class MenuItemListView(ListView):
 
     def get_queryset(self):
         return MenuItem.objects.all()
+    
+
+class RecipeRequirementListView(ListView):
+    model = RecipeRequirement
+    template_name = 'inventory/reciperequirement-list.html'
+    context_object_name = 'reciperequirement'
+    
+
+    def get_queryset(self):
+        return RecipeRequirement.objects.all()
+    
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+
+       # Loop through each RecipeRequirement in the queryset  # not yet finished still have to get the name of the menuitem to add it to our list
+        for requirement in context['reciperequirement']:
+            # Retrieve related data dynamically (replace with your actual logic)
+            menu_item_name = requirement.menu_item.name if requirement.menu_item else None
+            # Add relevant data to the list
+            {
+                'requirement': requirement,
+                'menu_item_name': menu_item_name,
+                # Add more related data as needed
+            }
+
+        return context
+        
 
 
 # this view shows the purchses made 
@@ -103,6 +130,13 @@ class IngredientCreate(CreateView):
     model = Ingredient
     form_class = IngredientForm
     template_name = 'inventory/ingredient_create.html'
+
+
+class RecipeRequirementCreate(CreateView):
+    model = RecipeRequirement
+    form_class = RecipeRequirementForm
+    template_name = 'inventory/reciperequirement_create.html'
+
 
 
   # decreasing ingredient.quantity because ingredients were used for the purchased menu_item.

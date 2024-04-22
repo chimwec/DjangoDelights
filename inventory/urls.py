@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from .views import PurchaseListView, MenuItemListView, IngredientDelete, IngredientListView, Profit, PurchaseItemView
+from .views import PurchaseListView, MenuItemListView, IngredientDelete, IngredientListView, Profit, PurchaseItemView, RecipeRequirementListView
 from.forms import PurchaseForm, IngredientForm, MenuItemForm
 
 urlpatterns = [
@@ -15,4 +15,6 @@ urlpatterns = [
     path('profit_revenue/', Profit.as_view(), name='profit_revenue'),
     path('purchase/<int:menu_item_id>/', PurchaseItemView.as_view(), name='purchase_item'),
     path('purchaseform/', PurchaseForm, name='purchaseform'),
+    path('reciperequirement', RecipeRequirementListView.as_view(), name='reciperequirement-list'),
+    path('reciperequirement/new/', views.RecipeRequirementCreate.as_view(), name='reciperequirement-create'),
 ]
