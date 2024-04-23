@@ -7,27 +7,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="table-page">
-  <div class="table-content">
-    <hr class="line">
-    <h2>Purchases</h2>
-    <table class="table">
-      <tr class="table-header">
-        <tr class="">
-          <th class="header-row-1">Purchase item</th>
-          <th class="header-row-1">Purchase time</th>
-         
-        </tr>
-      </tr>
 
-      {% for purchase in object_list|dictsortreversed:"timestamp" %}
-        <tr>
-          <td class="table-row-1">{{ purchase.menuitem.title | title }} </td>
-          <td class="table-row-2">{{ purchase.timestamp }} </td>
-        </tr>
-      {% endfor %}
-    </table>
-  </div>
+<h2>Purchase History</h2>
+<ul>
+  {% for purchase in purchases %}
+    <li>{{ purchase.menu_item.name }} - Quantity: {{ purchase.quantity }} - Purchased on: {{ purchase.purchase_timestamp }}</li>
+  {% empty %}
+    <li>No purchases yet.</li>
+  {% endfor %}
+</ul>
+
+  <div>
   <a href="{% url 'home' %}">Back home</a>
 </div>
 {% endblock %}

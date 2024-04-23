@@ -20,6 +20,16 @@ class MenuItem(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def has_enough_inventory(self,quantity):
+        return self.inventory >= quantity
+        self.save()
+
+    
+    def subtract_from_inventory(self, quantity):
+        if self.has_enough_inventory(quantity):
+            self.inventory -= quantity
+            self.save()
+            
 
     def get_absolute_url(self):
         return "/menu"

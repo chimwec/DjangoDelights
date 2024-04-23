@@ -14,15 +14,15 @@
     <table class="table">
       <tr class="table-header">
         <tr class="">
-          <th class="header-row-1">Name</th>
+          <th class="header-row-1">name</th>
           <th class="header-row-1">Quantity</th>
         </tr>
       </tr>
 
-      {% for reciperequirement in reciperequirement %}
+      {% for requirement in reciperequirement %}
         <tr>
-          <td class="table-row-1">{{ menu_item_name }} </td>
-          <td class="table-row-2">{{ reciperequirement.quantity }} </td>
+          <td class="table-row-1">{{ requirement.menu_item.name }} </td>
+          <td class="table-row-2">{{ requirement.quantity }} </td>
         </tr>
       {% endfor %}
     </table>

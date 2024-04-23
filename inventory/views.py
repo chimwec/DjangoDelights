@@ -58,40 +58,31 @@ class RecipeRequirementListView(ListView):
     def get_queryset(self):
         return RecipeRequirement.objects.all()
     
-    def get_context_data(self, **kwargs: Any):
-        context = super().get_context_data(**kwargs)
-
-       # Loop through each RecipeRequirement in the queryset  # not yet finished still have to get the name of the menuitem to add it to our list
-        for requirement in context['reciperequirement']:
-            # Retrieve related data dynamically (replace with your actual logic)
-            menu_item_name = requirement.menu_item.name if requirement.menu_item else None
-            # Add relevant data to the list
-            {
-                'requirement': requirement,
-                'menu_item_name': menu_item_name,
-                # Add more related data as needed
-            }
-
-        return context
         
-
 
 # this view shows the purchses made 
 class PurchaseListView(ListView):
     model = Purchase
     template_name = 'inventory/purchase.html'
+    context_object_name = 'purchases'
+
+
 
 # this view gets the purchase and then subtract the inventory
 class PurchaseItemView(View):
     def post(self, request, menu_item_id):
+        try:
         # Retrieve the selected menu item
-        menu_item = MenuItem.objects.get(pk=menu_item_id)
+            menu_item = MenuItem.objects.get(pk=menu_item_id)
+        except MenuItem.DoesNotExist:
+            return render(request, 'purchase_error.html', {'error_message': 'Menu item not found'})
 
         # Assuming a form is submitted with quantity data
         quantity = request.POST.get('quantity', 1)  # Default to 1 if not provided
+        quantity = int(quantity) # covert quantity to integer
 
         # Check if there are enough ingredients in inventory
-        if menu_item.has_enough_inventory(int(quantity)):
+        if menu_item.has_enough_inventory(quantity):
             # Record the purchase
             purchase = Purchase.objects.create(
                 menu_item=menu_item,
@@ -117,7 +108,7 @@ class PurchaseItemView(View):
 class MenuItemCreate(CreateView):
     model = MenuItem
     form_class = MenuItemForm
-    template_name = 'inventory/add_menu.html'
+    template_name = 'inventory/menu_create.html'
 
 
 class PurchaseCreate(CreateView):
