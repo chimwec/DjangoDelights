@@ -69,36 +69,24 @@ class PurchaseListView(ListView):
 
 
 # this view gets the purchase and then subtract the inventory
-class PurchaseItemView(View):
-    def post(self, request, menu_item_id):
-        try:
-        # Retrieve the selected menu item
-            menu_item = MenuItem.objects.get(pk=menu_item_id)
-        except MenuItem.DoesNotExist:
-            return render(request, 'purchase_error.html', {'error_message': 'Menu item not found'})
+class PurchaseDetailView(DetailView):
+    def get(self, request, menu_item_id):
+        menu_item = MenuItem.objects.get(pk=menu_item_id)
+        form = PurchaseForm(request.POST)
+        if form.is_valid():
+            quantity = form.cleaned_data['quantity']
+            if menu_item.has_enough_inventory(quantity):
+                Purchase.objects.create(
+                    menu_item=menu_item,
+                    quantity=quantity,
+                    purchase_timestamp=datetime.now()
+                )
+                menu_item.subtract_from_inventory(quantity)
+                return redirect('purchase')
+            else:
+                return render(request, 'purchase_error.html', {'error_message': 'Insufficient inventory'})
+        return render(request, 'inventory/purchase.html', {'form': form, 'menu_item': menu_item})
 
-        # Assuming a form is submitted with quantity data
-        quantity = request.POST.get('quantity', 1)  # Default to 1 if not provided
-        quantity = int(quantity) # covert quantity to integer
-
-        # Check if there are enough ingredients in inventory
-        if menu_item.has_enough_inventory(quantity):
-            # Record the purchase
-            purchase = Purchase.objects.create(
-                menu_item=menu_item,
-                quantity=quantity,
-                purchase_timestamp=datetime.now()
-            )
-
-            # Update inventory by subtracting required ingredients
-            menu_item.subtract_from_inventory(int(quantity))
-
-            # Redirect to a success page or display a success message
-            return redirect('purchase_success')
-
-        else:
-            # Display error message - insufficient ingredients
-            return render(request, 'purchase_error.html', {'error_message': 'Insufficient ingredients'})
 
 
 

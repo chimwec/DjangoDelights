@@ -4,8 +4,8 @@ from.models import MenuItem, Ingredient, RecipeRequirement, Purchase
 
 class PurchaseForm(forms.Form):
     class Meta:
-       model = Purchase
-       fields = ['menu_item', 'quantity', 'notes']
+      model = Purchase
+      fields = ['menu_item', 'quantity', 'notes']
 
 class IngredientForm(forms.ModelForm):
     class Meta:

@@ -18,12 +18,20 @@
           <th class="header-row-1">Price</th>
         </tr>
       </tr>
-<!-- add the button to add the menu in the cart -->
+<!-- add the button to add the menu in the purchase -->
+<form method="POST" action="{% url 'purchase' %}">
+  {% csrf_token %}
+  <input type="hidden" name="menu_item" value="{{ menu_item_id }}">
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" name="quantity" min="1" value="1">
+  <button type="submit">Purchase</button>
+</form>
+
       {% for menu in menu %}
         <tr>
           <td class="table-row-1">{{ menu.name }} </td>
           <td class="table-row-2">{{ menu.price }} </td>
-        </tr>
+        </tr> 
       {% endfor %}
     </table>
   </div>
