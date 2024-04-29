@@ -6,7 +6,7 @@ from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
-from django.views.generic.edit import DeleteView, CreateView, View
+from django.views.generic.edit import DeleteView, CreateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 
@@ -69,23 +69,21 @@ class PurchaseListView(ListView):
 
 
 # this view gets the purchase and then subtract the inventory
-class PurchaseDetailView(DetailView):
-    def get(self, request, menu_item_id):
-        menu_item = MenuItem.objects.get(pk=menu_item_id)
-        form = PurchaseForm(request.POST)
-        if form.is_valid():
-            quantity = form.cleaned_data['quantity']
-            if menu_item.has_enough_inventory(quantity):
-                Purchase.objects.create(
-                    menu_item=menu_item,
-                    quantity=quantity,
-                    purchase_timestamp=datetime.now()
-                )
-                menu_item.subtract_from_inventory(quantity)
-                return redirect('purchase')
-            else:
-                return render(request, 'purchase_error.html', {'error_message': 'Insufficient inventory'})
-        return render(request, 'inventory/purchase.html', {'form': form, 'menu_item': menu_item})
+class PurchaseCreate(CreateView):
+    model = Purchase
+    form_class = PurchaseForm
+
+    def form_valid(self, form):
+        purchase = form.save(commit=False)
+        menu_item = purchase.menu_item
+        quantity = purchase.quantity
+        
+        if menu_item.has_enough_inventory(quantity):
+            purchase.save()
+            menu_item.subtract_from_inventory(quantity)
+            return redirect('purchase', pk=purchase.pk)
+        else:
+            return render(self.request, 'purchase_error.html', {'error_message': 'Insufficient inventory'})
 
 
 

@@ -2,10 +2,10 @@ from django import forms
 from.models import MenuItem, Ingredient, RecipeRequirement, Purchase
 
 
-class PurchaseForm(forms.Form):
+class PurchaseForm(forms.ModelForm):
     class Meta:
       model = Purchase
-      fields = ['menu_item', 'quantity', 'notes']
+      fields = "__all__"
 
 class IngredientForm(forms.ModelForm):
     class Meta:

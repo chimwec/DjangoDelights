@@ -19,9 +19,9 @@
         </tr>
       </tr>
 <!-- add the button to add the menu in the purchase -->
-<form method="POST" action="{% url 'purchase' %}">
+  <form method="POST" action="{% url 'purchase' %}">
   {% csrf_token %}
-  <input type="hidden" name="menu_item" value="{{ menu_item_id }}">
+  <input type="hidden" name="menu_item_id" value="{{ menu_item_id }}">
   <label for="quantity">Quantity:</label>
   <input type="number" id="quantity" name="quantity" min="1" value="1">
   <button type="submit">Purchase</button>
