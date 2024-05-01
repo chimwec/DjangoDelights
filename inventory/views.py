@@ -63,7 +63,7 @@ class RecipeRequirementListView(ListView):
 # this view shows the purchses made 
 class PurchaseListView(ListView):
     model = Purchase
-    template_name = 'inventory/purchase.html'
+    template_name = 'inventory/purchase-list.html'
     context_object_name = 'purchases'
 
 
@@ -73,18 +73,30 @@ class PurchaseCreate(CreateView):
     model = Purchase
     form_class = PurchaseForm
 
-    def form_valid(self, form):
-        purchase = form.save(commit=False)
-        menu_item = purchase.menu_item
-        quantity = purchase.quantity
-        
-        if menu_item.has_enough_inventory(quantity):
-            purchase.save()
-            menu_item.subtract_from_inventory(quantity)
-            return redirect('purchase', pk=purchase.pk)
-        else:
-            return render(self.request, 'purchase_error.html', {'error_message': 'Insufficient inventory'})
 
+  # decreasing ingredient.quantity because ingredients were used for the purchased menu_item.
+    def form_valid(self, form):
+        item = form.save(commit=False)
+        menu_item = MenuItem.objects.get(id = item.menu_item.id)
+        recipe_requirements  = RecipeRequirement.objects.filter(menu_item = menu_item)
+        errors_list = []
+        for i in recipe_requirements:
+            if (i.ingredient.quantity - i.quantity) >= 0:
+                pass
+            else:
+                errors_list.append(i.ingredient.name)
+        if (errors_list.__len__() == 0):
+            i.ingredient.quantity -= i.quantity
+            i.ingredient.save()
+            item.save()
+      # messages.success(self.request, "successful")
+            return super(PurchaseCreate, self).form_valid(form)
+        else:
+            error_string = ", ".join(errors_list)
+            messages.error(self.request, f"not enough ingredients in the inventory! ({error_string})")
+            return self.render_to_response(self.get_context_data(form=form))
+
+ 
 
 
 

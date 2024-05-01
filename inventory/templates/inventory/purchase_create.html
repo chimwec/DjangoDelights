@@ -1,23 +1,32 @@
 {% extends 'inventory/base.html' %}
 {% load static %}
 
-
 {% block head %}
   <link rel="stylesheet" href="{% static 'inventory/style.css' %}">
 {% endblock %}
 
 {% block content %}
+<!-- need to display error message if not enough ingredients -->
 
-<h2>Purchase History</h2>
-<ul>
-  {% for purchase in purchases %}
-    <li>{{ purchase.menu_item.name }} - Quantity: {{ purchase.quantity }} - Purchased on: {{ purchase.purchase_timestamp }}</li>
-  {% empty %}
-    <li>No purchases yet.</li>
-  {% endfor %}
-</ul>
+<div class="body">
+  {% if messages %}
+    <div class="message">
+      {% for message in messages %}
+      <div class="message-text">{{ message }}</div>
+    {% endfor %}
+    </div>
+  {% endif %}
 
-  <div>
-  <a href="{% url 'home' %}">Back home</a>
+  <div class="form">
+    <div class="form-title"><h2>Add new purchase record:</h2></div>
+    <hr class="line">
+    <div class="form_content">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br><input type="submit" class="btn_login" value="Confirm"/>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}
