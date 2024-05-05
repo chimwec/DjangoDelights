@@ -14,7 +14,8 @@
     <table class="table">
       <tr class="table-header">
         <tr class="">
-          <th class="header-row-1">name</th>
+          <th class="header-row-1">name of Menu</th>
+          <th class="header-row-1">name of ingredients</th>
           <th class="header-row-1">Quantity</th>
         </tr>
       </tr>
@@ -22,6 +23,7 @@
       {% for requirement in reciperequirement %}
         <tr>
           <td class="table-row-1">{{ requirement.menu_item.name }} </td>
+          <td class="table-row-1">{{ requirement.ingredient }}</td>
           <td class="table-row-2">{{ requirement.quantity }} </td>
         </tr>
       {% endfor %}
