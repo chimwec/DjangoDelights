@@ -9,6 +9,8 @@ from django.db.models import Sum
 from django.views.generic.edit import DeleteView, CreateView
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.db import transaction
+
 
 # Create your views here.
 class home(TemplateView):
@@ -26,7 +28,9 @@ class Profit(TemplateView):
     template_name = 'inventory/profit_revenue.html'
 
 
-# all Listviews below
+
+
+# all Listviews below   
     
 # this is a view that will show a list of ingredient
 class IngredientListView(ListView):
@@ -58,46 +62,13 @@ class RecipeRequirementListView(ListView):
     def get_queryset(self):
         return RecipeRequirement.objects.all()
     
-        
 
 # this view shows the purchses made 
 class PurchaseListView(ListView):
     model = Purchase
     template_name = 'inventory/purchase-list.html'
     context_object_name = 'purchases'
-
-
-
-# this view gets the purchase and then subtract the inventory
-class PurchaseCreate(CreateView):
-    model = Purchase
-    form_class = PurchaseForm
-
-
-  # decreasing ingredient.quantity because ingredients were used for the purchased menu_item.
-    def form_valid(self, form):
-        item = form.save(commit=False)
-        menu_item = MenuItem.objects.get(id = item.menu_item.id)
-        recipe_requirements  = RecipeRequirement.objects.filter(menu_item = menu_item)
-        errors_list = []
-        for i in recipe_requirements:
-            if (i.ingredient.quantity - i.quantity) >= 0:
-                pass
-            else:
-                errors_list.append(i.ingredient.name)
-        if (errors_list.__len__() == 0):
-            i.ingredient.quantity -= i.quantity
-            i.ingredient.save()
-            item.save()
-      # messages.success(self.request, "successful")
-            return super(PurchaseCreate, self).form_valid(form)
-        else:
-            error_string = ", ".join(errors_list)
-            messages.error(self.request, f"not enough ingredients in the inventory! ({error_string})")
-            return self.render_to_response(self.get_context_data(form=form))
-
  
-
 
 
 
@@ -128,7 +99,8 @@ class RecipeRequirementCreate(CreateView):
 
 
 
-  # decreasing ingredient.quantity because ingredients were used for the purchased menu_item.
+  # decreasing ingredient.quantity because ingredients were used for the purchased menu_item, have to finish the automatic subtractions in the inventory ingredients
+    
 def form_valid(self, form):
     item = form.save(commit=False)
     menu_item = MenuItem.objects.get(id = item.menu_item.id)
@@ -144,7 +116,12 @@ def form_valid(self, form):
         ingredient.quantity -= required_quantity
         ingredient.save()
     else:
-            errors_list.append(ingredient.name)
+        errors_list.append(ingredient.name)
+
+        with transaction.atomic():
+            for requirement in recipe_requirements:
+                ingredient.quantity -= required_quantity 
+                ingredient.save()
 
     if not errors_list:
         item.save()
@@ -154,6 +131,8 @@ def form_valid(self, form):
           error_string = ", ".join(errors_list)
           messages.error(self.request, f"Not enough ingredients in the inventory: {error_string}")
           return self.render_to_response(self.get_context_data(form=form))
+    
+
 
 
 # view the profit and revenue for the restaurant.

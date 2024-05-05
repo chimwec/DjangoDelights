@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django_measurement.models import MeasurementField
-from measurement.measures import Volume
+
 
 UNIT_CHOICES = [
   ("g", "gram"),
@@ -52,13 +51,12 @@ class RecipeRequirement(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
-    volume = MeasurementField(measurement=Volume)
-
+   
     def get_absolute_url(self):
         return "/reciperequirement"
 
     def __str__(self):
-        return self.ingredient.name, self.volume
+        return  self.ingredient.name
     
 
 

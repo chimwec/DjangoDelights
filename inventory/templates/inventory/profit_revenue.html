@@ -9,10 +9,18 @@
     <div class="table-content">
       <hr class="line">
       <h2>Profit & Revenue</h2>
+      {% for profit in Purchase %}
             <td class="table-row-1">{{ profit.name }} </td>
+      {% endfor %}
+
+      {% for revenue in Purchase %}
             <td class="table-row-2">{{ revenue.name }} </td>
+      {% endfor %}
+      
+      {% for cost in purchases %}
+            <td class="table-roe-3">{{ cost.name }}</td>
           </tr>
-       
+      {% endfor %}
       </table>
     </div>
     <a href="{% url 'home' %}">Back home</a>

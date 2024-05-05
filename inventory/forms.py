@@ -23,4 +23,4 @@ class RecipeRequirementForm(forms.ModelForm):
    class Meta:
       model = RecipeRequirement 
       fields = "__all__"
-      volume = MeasurementField(measurement=Volume)
+      
