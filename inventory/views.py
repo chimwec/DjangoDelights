@@ -6,7 +6,7 @@ from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
-from django.views.generic.edit import DeleteView, CreateView
+from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db import transaction
@@ -145,6 +145,31 @@ def profit_revenue(request):
     return render(request, 'inventory/profit_revenue.html', context)
 
     
+
+class IngredientUpdate(UpdateView):
+  model = Ingredient
+  template_name = "inventory/ingredient_update_form.html"
+  form_class = IngredientForm
+
+
+
+class IngredientDetail(DetailView):
+    model = Ingredient
+    template_name = "inventory/ingredient_details.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object'] = self.object
+        ingredient = Ingredient.objects.get(id=context['object'].pk)
+        recipe_requirements_list = []
+        for item in context['object'].reciperequirement_set.all():
+            recipe_requirements_list.append(item)
+        context = {
+           'ingredient':ingredient,
+           'recipe_requirements_list': recipe_requirements_list
+        }
+        return context
+
 
 # this view is for deleting ingredients
 class IngredientDelete(DeleteView):

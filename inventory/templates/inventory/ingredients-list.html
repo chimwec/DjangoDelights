@@ -1,7 +1,6 @@
 {% extends 'inventory/base.html' %}
 {% load static %}
 
-
 {% block head %}
   <link rel="stylesheet" href="{% static 'inventory/style.css' %}">
 {% endblock %}
@@ -9,25 +8,28 @@
 {% block content %}
 <div class="table-page">
   <div class="table-content">
+    <p class="create_btn"><a href="{% url 'ingredient-create' %}">Add Ingredient</a></p>
     <hr class="line">
     <h2>Ingredients in the inventory</h2>
     <table class="table">
       <tr class="table-header">
         <tr class="">
-          <th class="header-row-1">Name</th>
+          <th class="header-row-1" >Name</th>
           <th class="header-row-1">Quantity</th>
+          <th class="header-row-2">Actions</th>
         </tr>
       </tr>
 
-      {% for ingredient in ingredients %}
+      {% for ingredient in object_list %}
         <tr>
-          <td class="table-row-1">{{ ingredient.name }} </td>
-          <td class="table-row-2">{{ ingredient.quantity }} </td>
+          <td class="table-row-1"><a href="{% url 'ingredientdetail' ingredient.id %}">{{ ingredient.name | title }}</a></td>
+          <td class="table-row-1">{{ ingredient.quantity}} </td>
+          <td class="table-row-2">
+            <a href="{% url 'ingredientupdate' ingredient.id %}" class="update btn">Update</a>
+          </td>
         </tr>
       {% endfor %}
     </table>
   </div>
-  <a href="{% url 'ingredient-create' %}">+</a>
-  <a href="{% url 'home' %}">Back home</a>
 </div>
 {% endblock %}

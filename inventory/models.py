@@ -42,7 +42,7 @@ class Ingredient(models.Model):
         return "/ingredients"
 
     def __str__(self):
-        return self.name
+        return f"{self.name}: {self.price_perr_unit} {self.unit}"
     
 
     
