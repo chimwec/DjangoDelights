@@ -6,7 +6,7 @@ from.forms import PurchaseForm, IngredientForm, MenuItemForm
 urlpatterns = [
     path('', views.home.as_view(), name='home'),
     path('ingredients/list', IngredientListView.as_view(), name='ingredients-list'),
-    path('ingredients/new/', views.IngredientCreate.as_view(), name='ingredient-create'),
+    path('ingredients/', views.IngredientCreate.as_view(), name='ingredient-create'),
     path('ingredient/<pk>/update', views.IngredientUpdate.as_view(), name='ingredientupdate'),
     path('ingredient/<pk>', views.IngredientDetail.as_view(), name='ingredientdetail'),
     path('menu/', MenuItemListView.as_view(), name='menuitem'),

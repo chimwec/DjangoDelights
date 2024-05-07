@@ -29,18 +29,17 @@
       <tr>
         <td class="table-row-1 details ">Used in Menu items:</td>
         <td class="table-row-2 details ">
-          {% for item in recipe_requirements_list %}
-            <a href="{% url 'menuitemdetails' item.menu_item.id %}" class="link">{{ item.menu_item.title}};</a>
-          {% endfor %}
+          {% if recipe_requirements_list %}
+            <a href="{% url 'menuitem-create' %}" class="link">{{ recipe_requirements_list.0.menu_item.name}}:</a>
+          {% endif %}
         </td>
       </tr>
       <tr>
         <td class="table-row-1 details ">Price</td>
-        <td class="table-row-2 details ">{{ ingredient.unit_price }}</td>
+        <td class="table-row-2 details ">{{ ingredient.price_per_unit }}</td>
       </tr>
       <tr>
         <td class="table-row-1"><a href="{% url 'ingredientupdate' ingredient.id %}" class="update details btn">Update</a></td>
-        <td class="table-row-2"><a href="{% url 'ingredientdelete' ingredient.id %}" class="delete details btn">Delete</a></td>
       </tr>
     </table>
   </div>

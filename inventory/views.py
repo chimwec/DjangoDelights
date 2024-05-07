@@ -21,6 +21,7 @@ class home(TemplateView):
        context["ingredients"] = Ingredient.objects.all()
        context["menu"] = MenuItem.objects.all()
        context["purchase"] = Purchase.objects.all()
+       context["reciperequirement"] = RecipeRequirement.objects.all()
        return context
 
 # this view is to show profit
@@ -158,7 +159,7 @@ class IngredientDetail(DetailView):
     template_name = "inventory/ingredient_details.html"
     
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(IngredientDetail,self).get_context_data(**kwargs)
         context['object'] = self.object
         ingredient = Ingredient.objects.get(id=context['object'].pk)
         recipe_requirements_list = []

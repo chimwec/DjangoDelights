@@ -16,6 +16,7 @@
         <tr class="">
           <th class="header-row-1">name of Menu</th>
           <th class="header-row-1">name of ingredients</th>
+          <th class="header-row-1">name of units</th>
           <th class="header-row-1">Quantity</th>
         </tr>
       </tr>
@@ -24,6 +25,7 @@
         <tr>
           <td class="table-row-1">{{ requirement.menu_item.name }} </td>
           <td class="table-row-1">{{ requirement.ingredient }}</td>
+          <td class="table-row-1">{{ requirement.unit }}</td>
           <td class="table-row-2">{{ requirement.quantity }} </td>
         </tr>
       {% endfor %}

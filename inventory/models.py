@@ -42,7 +42,7 @@ class Ingredient(models.Model):
         return "/ingredients"
 
     def __str__(self):
-        return f"{self.name}: {self.price_perr_unit} {self.unit}"
+        return f"{self.name}: {self.price_per_unit} {self.unit}"
     
 
     
@@ -51,6 +51,7 @@ class RecipeRequirement(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
+    unit = models.CharField(max_length=200, choices=UNIT_CHOICES, default='')
    
     def get_absolute_url(self):
         return "/reciperequirement"
