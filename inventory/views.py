@@ -175,4 +175,11 @@ class IngredientDetail(DetailView):
 # this view is for deleting ingredients
 class IngredientDelete(DeleteView):
     model = Ingredient
+    form_class = IngredientForm
     template_name = 'inventory/ingredient_delete_form.html'
+
+
+class MenuItemDelete(DeleteView):
+    model = MenuItem
+    form_class = MenuItemForm
+    template_name = 'inventory/menuitem_delete_form.html'

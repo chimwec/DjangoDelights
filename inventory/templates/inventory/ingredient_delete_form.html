@@ -1,0 +1,30 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="body">
+  {% if messages %}
+    <div class="message">
+      {% for message in messages %}
+        <div class="message-text">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="form">
+    <div class="form-title"><h2>Delete ingredient</h2></div>
+    <hr class="line">
+    <div class="form_content">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br><input type="submit" class="btn_login" value="Submit"/>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

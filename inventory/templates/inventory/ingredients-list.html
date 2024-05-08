@@ -26,6 +26,7 @@
           <td class="table-row-1">{{ ingredient.quantity}} </td>
           <td class="table-row-2">
             <a href="{% url 'ingredientupdate' ingredient.id %}" class="update btn">Update</a>
+            <a href="{% url 'ingredientdelete' ingredient.id %}" class="delete btn">Delete</a>
           </td>
         </tr>
       {% endfor %}
