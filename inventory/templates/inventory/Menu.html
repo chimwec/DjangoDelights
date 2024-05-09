@@ -26,7 +26,6 @@
           <td class="table-row-1">{{ menu.name }} </td>
           <td class="table-row-2">{{ menu.price }} </td>
           <td class="table-row-3">
-            <a href="{% url 'menuitem-create' %}" class="add btn">Add</a>
             <a href="{% url 'menuitemdelete' %}" class="delete btn">Delete</a>
           </td>
         </tr> 
@@ -34,5 +33,7 @@
     </table>
   </div>
   <a href="{% url 'home' %}">Back home</a>
+
+  <a href="{% url 'menuitem-create' %}" class="add btn">Add</a>
 </div>
 {% endblock %}
