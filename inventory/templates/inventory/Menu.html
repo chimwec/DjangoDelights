@@ -26,7 +26,7 @@
           <td class="table-row-1">{{ menu.name }} </td>
           <td class="table-row-2">{{ menu.price }} </td>
           <td class="table-row-3">
-            <a href="{% url 'menuitemdelete' %}" class="delete btn">Delete</a>
+            <a href="{% url 'menuitem_delete' menu.id %}" class="delete btn">Delete</a>
           </td>
         </tr> 
       {% endfor %}

@@ -6,25 +6,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="body">
-  {% if messages %}
-    <div class="message">
-      {% for message in messages %}
-        <div class="message-text">{{ message }}</div>
-      {% endfor %}
-    </div>
-  {% endif %}
-
-  <div class="form">
-    <div class="form-title"><h2>Delete MenuITem</h2></div>
-    <hr class="line">
-    <div class="form_content">
-      <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <br><input type="submit" class="btn_login" value="Submit"/>
-      </form>
-    </div>
-  </div>
-</div>
+<h2>Delete Menu</h2>
+<form method="post">
+{% csrf_token %}
+  <p>Are you sure you want to delete "{{ object }}"?</p>
+  <input type="submit" value="Confirm" />
+</form>
 {% endblock %}

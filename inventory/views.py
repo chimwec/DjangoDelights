@@ -34,7 +34,7 @@ class Profit(TemplateView):
 # all Listviews below   
     
 # this is a view that will show a list of ingredient
-class IngredientListView(ListView):
+class IngredientsView(ListView):
     model = Ingredient
     template_name = 'inventory/ingredients-list.html'
     context_object_name = 'ingredients'
@@ -44,7 +44,7 @@ class IngredientListView(ListView):
 
 
 # this view will show the menu items
-class MenuItemListView(ListView):
+class MenuItemView(ListView):
     model = MenuItem
     template_name = 'inventory/menu.html'
     context_object_name = 'menu'
@@ -151,6 +151,7 @@ class IngredientUpdate(UpdateView):
   model = Ingredient
   template_name = "inventory/ingredient_update_form.html"
   form_class = IngredientForm
+  success_url = '/ingredients'
 
 
 
@@ -177,9 +178,11 @@ class IngredientDelete(DeleteView):
     model = Ingredient
     form_class = IngredientForm
     template_name = 'inventory/ingredient_delete_form.html'
+    success_url = '/ingredients'
 
 
 class MenuItemDelete(DeleteView):
     model = MenuItem
     form_class = MenuItemForm
     template_name = 'inventory/menuitem_delete_form.html'
+    success_url = '/menuitem'
