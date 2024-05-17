@@ -1,14 +1,14 @@
 from typing import Any
 from datetime import datetime
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.db import transaction
 
 
@@ -23,6 +23,10 @@ class home(TemplateView):
        context["purchase"] = Purchase.objects.all()
        context["reciperequirement"] = RecipeRequirement.objects.all()
        return context
+   
+   
+   # inventory/views.py
+
 
 # this view is to show profit
 class Profit(TemplateView):
@@ -34,7 +38,7 @@ class Profit(TemplateView):
 # all Listviews below   
     
 # this is a view that will show a list of ingredient
-class IngredientsView(ListView):
+class IngredientsList(ListView):
     model = Ingredient
     template_name = 'inventory/ingredients-list.html'
     context_object_name = 'ingredients'
@@ -54,7 +58,7 @@ class MenuItemView(ListView):
         return MenuItem.objects.all()
     
 
-class RecipeRequirementListView(ListView):
+class RecipeRequirementList(ListView):
     model = RecipeRequirement
     template_name = 'inventory/reciperequirement-list.html'
     context_object_name = 'reciperequirement'
@@ -65,7 +69,7 @@ class RecipeRequirementListView(ListView):
     
 
 # this view shows the purchses made 
-class PurchaseListView(ListView):
+class PurchaseList(ListView):
     model = Purchase
     template_name = 'inventory/purchase-list.html'
     context_object_name = 'purchases'
@@ -91,12 +95,38 @@ class IngredientCreate(CreateView):
     model = Ingredient
     form_class = IngredientForm
     template_name = 'inventory/ingredient_create.html'
+    success_url = reverse_lazy('ingredientslist')
 
 
 class RecipeRequirementCreate(CreateView):
     model = RecipeRequirement
     form_class = RecipeRequirementForm
     template_name = 'inventory/reciperequirement_create.html'
+
+
+#All Updateview
+    
+class IngredientUpdate(UpdateView):
+  model = Ingredient
+  template_name = "inventory/ingredient_update_form.html"
+  form_class = IngredientForm
+  success_url = reverse_lazy('ingredientslist')
+
+
+
+#All Deleteview
+class IngredientDelete(DeleteView):
+    model = Ingredient
+    template_name = 'inventory/ingredient_delete_form.html'
+    success_url = reverse_lazy('ingredientslist')
+
+
+
+class MenuItemDelete(DeleteView):
+    model = MenuItem
+    template_name = 'inventory/menuitem_delete_form.html'
+    success_url = reverse_lazy ('menuitem')
+
 
 
 
@@ -145,13 +175,6 @@ def profit_revenue(request):
     context["revenue"] = Purchase.objects.all().aggregate(Sum('menu_item__price'))
     return render(request, 'inventory/profit_revenue.html', context)
 
-    
-
-class IngredientUpdate(UpdateView):
-  model = Ingredient
-  template_name = "inventory/ingredient_update_form.html"
-  form_class = IngredientForm
-  success_url = '/ingredients'
 
 
 
@@ -173,16 +196,4 @@ class IngredientDetail(DetailView):
         return context
 
 
-# this view is for deleting ingredients
-class IngredientDelete(DeleteView):
-    model = Ingredient
-    form_class = IngredientForm
-    template_name = 'inventory/ingredient_delete_form.html'
-    success_url = '/ingredients'
 
-
-class MenuItemDelete(DeleteView):
-    model = MenuItem
-    form_class = MenuItemForm
-    template_name = 'inventory/menuitem_delete_form.html'
-    success_url = '/menuitem'

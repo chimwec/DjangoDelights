@@ -26,11 +26,12 @@
           <td class="table-row-1">{{ ingredient.quantity}} </td>
           <td class="table-row-2">
             <a href="{% url 'ingredientupdate' ingredient.id %}" class="update btn">Update</a>
-            <a href="{% url 'ingredientdelete' ingredient.id %}" class="delete btn">Delete</a>
+            <a href="{% url 'ingredientdelete' ingredient.id %}" class="delete btn">delete</a>
           </td>
         </tr>
       {% endfor %}
     </table>
   </div>
+  <a href="{% url 'home' %}">Back home</a>
 </div>
 {% endblock %}

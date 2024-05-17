@@ -40,7 +40,7 @@ class Ingredient(models.Model):
 
 
     def get_absolute_url(self):
-        return "/ingredients"
+        return "/ingredient"
 
     def __str__(self):
         return f"{self.name}: {self.price_per_unit} {self.unit}"
