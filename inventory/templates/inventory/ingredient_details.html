@@ -30,7 +30,7 @@
         <td class="table-row-1 details ">Used in Menu items:</td>
         <td class="table-row-2 details ">
           {% if recipe_requirements_list %}
-            <a href="{% url 'menuitem-create' %}" class="link">{{ recipe_requirements_list.0.menu_item.name}}:</a>
+            <a href="{% url 'menuitem-create' %}" class="link">{{ item.menu_item.title }}:</a>
           {% endif %}
         </td>
       </tr>
