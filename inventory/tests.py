@@ -9,7 +9,7 @@ from django.contrib.messages import get_messages
 from django.core.exceptions import ValidationError  # Import for raising validation errors
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangodelights.settings")
-
+from sqlite3 import Cursor
 
 # Create your tests here.
 class MenuItemViewTest(TestCase):
@@ -55,11 +55,18 @@ class PurchaseCreateTest(TestCase):
 
     def setUp(self):
         # Create some test data
-        menu_item = MenuItem.objects.create(name="Test_MenuItem")
+        menu_item = MenuItem.objects.create(name="MenuItem 1")
         ingredient1 = Ingredient.objects.create(name="Ingredient 1", quantity=2)
         ingredient2 = Ingredient.objects.create(name="Ingredient 2", quantity=1)
         RecipeRequirement.objects.create(menu_item=menu_item, ingredient=ingredient1, quantity=2)
         RecipeRequirement.objects.create(menu_item=menu_item, ingredient=ingredient2, quantity=3)
+
+
+    def add_menu_item(name, price):
+       if price is None:
+         raise ValueError("Price cannot be None")
+       Cursor.execute("INSERT INTO inventory_menuitem (name, price) VALUES (?, ?)", (name, price))
+
 
     def test_sufficient_quantity(self):
         # Purchase with sufficient quantity

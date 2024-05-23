@@ -56,16 +56,8 @@ class MenuItemView(ListView):
 
     def get_queryset(self):
         return MenuItem.objects.all()
-    
 
-class RecipeRequirementList(ListView):
-    model = RecipeRequirement
-    template_name = 'inventory/reciperequirement-list.html'
-    context_object_name = 'reciperequirement'
     
-
-    def get_queryset(self):
-        return RecipeRequirement.objects.all()
     
 
 # this view shows the purchses made 
@@ -103,6 +95,7 @@ class RecipeRequirementCreate(CreateView):
     model = RecipeRequirement
     form_class = RecipeRequirementForm
     template_name = 'inventory/reciperequirement_create.html'
+    success_url = reverse_lazy("menuitem")
 
 
 #All Updateview
@@ -134,39 +127,29 @@ class MenuItemDelete(DeleteView):
   # decreasing ingredient.quantity because ingredients were used for the purchased menu_item, have to finish the automatic subtractions in the inventory ingredients
     
 def form_valid(self, form):
-    item = form.save(commit=False)
+    item = form.save(commit=False) #we have changed to True from False
     menu_item = MenuItem.objects.get(id = item.menu_item.id)
-    recipe_requirements  = RecipeRequirement.objects.filter(menu_item = menu_item)
+    recipe_requirements = RecipeRequirement.objects.filter(menu_item = menu_item)
     errors_list = []
+    print(menu_item)
 
-    ingredient_quantity_changes = {}
-    for requirement in recipe_requirements:
-        ingredient = requirement.ingredient
-        required_quantity = requirement.quantity
-        if ingredient.name in ingredient_quantity_changes:
-            ingredient_quantity_changes[ingredient.name] += required_quantity
-        else:
-            ingredient_quantity_changes[ingredient.name] = required_quantity
-
-    with transaction.atomic():
-        for ingredient_name, quantity_change in ingredient_quantity_changes.items():
-            ingredient = Ingredient.objects.get(name=ingredient_name)
-            if ingredient.quantity < quantity_change:
-               errors_list.append(ingredient_name)
-            else:
-               ingredient.quantity -= quantity_change
-               ingredient.save()
-
-    if not errors_list:
-        item.save()
-        messages.success(self.request, "Purchase successful!")
-        print("success message added")
-        return super(self).form_valid(form)
+    for i in recipe_requirements:
+      if (i.ingredient.quantity - i.quantity) >= 0:
+        print(i)
+      else:
+        errors_list.append(i.ingredient.name)
+    if (errors_list.__len__() == 0):
+      i.ingredient.quantity -= i.quantity
+      i.ingredient.save()
+      item.save()
+      # messages.success(self.request, "successful")
+      return super(PurchaseCreate, self).form_valid(form)
     else:
-          error_string = ", ".join(errors_list)
-          messages.error(self.request, f"Not enough ingredients in the inventory: {error_string}")
-          print("Error message added:", error_string)
-          return render(self.get_context_data(form=form)) #changed this from self.render_to_response
+      error_string = ", ".join(errors_list)
+      messages.error(self.request, f"not enough ingredients in the inventory! ({error_string})")
+      return self.render_to_response(self.get_context_data(form=form))
+    
+
     
 
 

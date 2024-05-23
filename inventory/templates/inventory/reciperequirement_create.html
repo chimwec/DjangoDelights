@@ -1,16 +1,31 @@
-{% extends 'inventory/base.html' %} 
-{% load static %} 
+{% extends 'inventory/base.html' %}
+{% load static %}
+
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'inventory/style.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
 {% endblock %}
 
 {% block content %}
-<h2>Add a New RecipeRequirement</h2> 
-<form method="post">{% csrf_token %}
-  <div>
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
+<div class="body">
+  {% if messages %}
+    <div class="message">
+      {% for message in messages %}
+        <div class="message-text">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="form">
+    <div class="form-title"><h2>Add new Ingredient in Menu item recipe requirements :</h2></div>
+    <hr class="line">
+    <div class="form_content">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br><input type="submit" class="btn_login" value="Confirm"/>
+      </form>
+    </div>
   </div>
-</form>
+</div>
 {% endblock %}

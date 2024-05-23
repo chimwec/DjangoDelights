@@ -46,7 +46,8 @@ class Ingredient(models.Model):
         return f"{self.name}: {self.price_per_unit} {self.unit}"
     
 
-    
+
+# represents a single ingredient and how much of it is required for an item on the menu
 class RecipeRequirement(models.Model):
     id = models.AutoField(primary_key=True)
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
@@ -55,10 +56,10 @@ class RecipeRequirement(models.Model):
     unit = models.CharField(max_length=200, choices=UNIT_CHOICES, default='')
    
     def get_absolute_url(self):
-        return "/reciperequirement"
+        return f"menu item: {self.menu_item}, ingredient: {self.ingredient}"
 
     def __str__(self):
-        return  self.ingredient.name
+        return  "/menuitem/list"
     
 
 
