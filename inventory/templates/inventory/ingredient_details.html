@@ -14,7 +14,6 @@
       <tr class="table-header">
         <tr>
           <th class="header-row-1">Ingredient: {{ ingredient.name | title}}</th>
-          <th class="header-row-2">Details</th>
         </tr>
       </tr>
 
@@ -28,10 +27,9 @@
       </tr>
       <tr>
         <td class="table-row-1 details ">Used in Menu items:</td>
-        <td class="table-row-2 details ">
-          {% if recipe_requirements_list %}
-            <a href="{% url 'menuitem-create' %}" class="link">{{ item.menu_item.title }}:</a>
-          {% endif %}
+          {% for item in recipe_requirements_list %}
+            <a href="{% url 'menuitemdetail' item.menu_item_id %}" class="link">{{ item.menu_item.title }}:</a>
+          {% endfor %}
         </td>
       </tr>
       <tr>

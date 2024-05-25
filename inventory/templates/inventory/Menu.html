@@ -9,6 +9,8 @@
 {% block content %}
 <div class="table-page">
   <div class="table-content">
+    <p class="create_btn"><a href="{% url 'menuitem-create' %}">Add Menu</a></p>
+
     <hr class="line">
     <h2>Available Menu Items</h2>
     <table class="table">
@@ -23,6 +25,8 @@
 
       {% for menu in menu %}
         <tr>
+
+          <td class="table-row-1"><a href="{% url 'menuitemdetail' menu.id %}">{{ menu.name | title }}</a></td>
           <td class="table-row-1">{{ menu.name }} </td>
           <td class="table-row-2">{{ menu.price }} </td>
           <td class="table-row-3">
@@ -34,6 +38,6 @@
   </div>
   <a href="{% url 'home' %}">Back home</a>
 
-  <a href="{% url 'menuitem-create' %}" class="add btn">Add</a>
+ 
 </div>
 {% endblock %}

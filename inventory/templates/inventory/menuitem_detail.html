@@ -1,0 +1,36 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'inventory/main.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="table-page">
+  <div class="table-content">
+    <table class="table">
+      <thead>
+        <tr class="table-header">
+          <th class="header-row-1">Ingredient</th>
+          <th class="header-row-2">Quantity</th>
+          <th class="header-row-3">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in recipe_requirements_list %}
+        <tr>
+          <td class="table-row-1">{{ item.ingredient.name }}</td>
+          <td class="table-row-2">{{ item.quantity }}</td>
+          <td class="table-row-2">{{ item.price }}</td>
+          
+          <td class="table-row-3">
+            <a href="{% url 'menuitemdetail' item.menu_item.id %}" class="link">{{ item.menu_item.title }}</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <a href="{% url 'home' %}">Back home</a>
+</div>
+{% endblock %}

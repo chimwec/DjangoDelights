@@ -14,8 +14,9 @@
     <table class="table">
       <tr class="table-header">
         <tr class="">
-          <th class="header-row-1" >Name</th>
+          <th class="header-row-1">Name</th>
           <th class="header-row-1">Quantity</th>
+          <th class="header-row-1">Unit</th>
           <th class="header-row-2">Actions</th>
         </tr>
       </tr>
@@ -24,7 +25,8 @@
         <tr>
           <td class="table-row-1"><a href="{% url 'ingredientdetail' ingredient.id %}">{{ ingredient.name | title }}</a></td>
           <td class="table-row-1">{{ ingredient.quantity}} </td>
-          <td class="table-row-2">
+          <td class="table-row-2">{{ ingredient.unit }} </td>
+          <td>
             <a href="{% url 'ingredientupdate' ingredient.id %}" class="update btn">Update</a>
             <a href="{% url 'ingredientdelete' ingredient.id %}" class="delete btn">delete</a>
           </td>

@@ -184,4 +184,15 @@ class IngredientDetail(DetailView):
         return context
 
 
+class MenuItemDetail(DetailView):
+    model = MenuItem
+    template_name = "inventory/menuitem_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(MenuItemDetail, self).get_context_data(**kwargs)
+        menuitem = self.object
+        recipe_requirements = RecipeRequirement.objects.filter(menu_item=menuitem).select_related('ingredient').distinct()
+        context['recipe_requirements_list'] = recipe_requirements
+        return context
+
 
