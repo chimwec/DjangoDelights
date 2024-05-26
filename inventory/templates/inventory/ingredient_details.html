@@ -28,7 +28,7 @@
       <tr>
         <td class="table-row-1 details ">Used in Menu items:</td>
           {% for item in recipe_requirements_list %}
-            <a href="{% url 'menuitemdetail' item.menu_item_id %}" class="link">{{ item.menu_item.title }}:</a>
+            <a href="{% url 'menuitemdetail' item.menu_item.id %}" class="link">{{ item.menu_item.title }}:</a>
           {% endfor %}
         </td>
       </tr>

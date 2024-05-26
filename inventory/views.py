@@ -10,9 +10,15 @@ from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.db import transaction
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
+#@login_required  #login our customer
 class home(TemplateView):
    template_name = 'inventory/home.html'
 
@@ -191,7 +197,7 @@ class MenuItemDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(MenuItemDetail, self).get_context_data(**kwargs)
         menuitem = self.object
-        recipe_requirements = RecipeRequirement.objects.filter(menu_item=menuitem).select_related('ingredient').distinct()
+        recipe_requirements = RecipeRequirement.objects.filter(menu_item=menuitem).distinct()
         context['recipe_requirements_list'] = recipe_requirements
         return context
 

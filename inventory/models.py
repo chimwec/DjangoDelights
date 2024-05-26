@@ -52,20 +52,20 @@ class RecipeRequirement(models.Model):
     id = models.AutoField(primary_key=True)
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.DecimalField(max_digits=10, decimal_places=1)
     unit = models.CharField(max_length=200, choices=UNIT_CHOICES, default='')
    
     def get_absolute_url(self):
         return f"menu item: {self.menu_item}, ingredient: {self.ingredient}"
 
     def __str__(self):
-        return  "/menuitem/list"
+        return  "/menu"
     
 
 
 class Purchase(models.Model):
     id = models.AutoField(primary_key=True)
-    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, default=1)
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
 
