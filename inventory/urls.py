@@ -17,7 +17,7 @@ urlpatterns = [
     path('purchase/List', views.PurchaseList.as_view(), name='purchase-list'),
     path('purchase/', views.PurchaseCreate.as_view(), name='purchase_create'),
     path('reciperequirement/create', views.RecipeRequirementCreate.as_view(), name='reciperequirement_create'),
-    path('profit_revenue/', views.Profit.as_view(), name='profit_revenue'),
+    path('profit_revenue/', views.profit_revenue, name='profit_revenue'),
 ]
 
 if settings.DEBUG:

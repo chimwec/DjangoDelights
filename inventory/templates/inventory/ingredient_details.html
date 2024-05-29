@@ -26,6 +26,10 @@
         <td class="table-row-2 details ">{{ ingredient.unit }}</td>
       </tr>
       <tr>
+        <td class="table-row-1 details ">Price per unit</td>
+        <td class="table-row-2 details ">{{ ingredient.price_per_unit }}</td>
+      </tr>
+      <tr>
         <td class="table-row-1 details ">Used in Menu items:</td>
           {% for item in recipe_requirements_list %}
             <a href="{% url 'menuitemdetail' item.menu_item.id %}" class="link">{{ item.menu_item.title }}:</a>

@@ -8,22 +8,9 @@
 {% block content %}
 <div>
   <h2>Profit & Revenue</h2>
-  <p>Total Revenue: {{ revenue }}</p>
-  <p>Total Profit: {{ profit }}</p>
-
-  <h3>Purchases</h3>
-  {% for purchase in purchases %}
-      <div>
-          <p>Menu Item: {{ purchase.menu_item.name }}</p>
-          <p>Price: {{ purchase.menu_item.price }}</p>
-          <p>Ingredient Cost: {{ purchase.ingredient_cost }}</p>
-      </div>
-  {% endfor %}
-<div>
-    <pre>{{ revenue }}</pre>
-    <pre>{{ profit }}</pre>
-    <pre>{{ purchases }}</pre>
-</div>
+  <p>Total Revenue: {{ total_revenue }}</p>
+  <p>Total Profit: {{ total_profit }}</p>
+ 
 </div>
 {% endblock %}
 
