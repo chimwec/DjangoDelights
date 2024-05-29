@@ -1,11 +1,11 @@
 from typing import Any
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import MenuItem, Ingredient, RecipeRequirement, Purchase
+from inventory.models import MenuItem, Ingredient, RecipeRequirement, Purchase
 from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
-from django.db.models import Sum
+from django.db.models import Sum, F, ExpressionWrapper, DecimalField, OuterRef, Subquery
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
@@ -32,11 +32,6 @@ class home(TemplateView):
    
    
    # inventory/views.py
-
-
-# this view is to show profit
-class Profit(TemplateView):
-    template_name = 'inventory/profit_revenue.html'
 
 
 
@@ -156,20 +151,46 @@ def form_valid(self, form):
       return self.render_to_response(self.get_context_data(form=form))
     
 
-    
+
+# function for profit and revenuefrom django.shortcuts import render
+# this view is to show profit
+class Profit(TemplateView):
+    template_name = 'inventory/profit_revenue.html'
+
+    def profit_revenue(request):
+        context = {}
+        context["menu"] = MenuItem.objects.all()
+        context["purchase"] = Purchase.objects.all()
+
+        # Calculate total revenue
+        total_revenue = Purchase.objects.aggregate(
+            total_revenue=Sum('menu_item__price')
+        )['total_revenue'] or 0  # Ensure None is handled
+
+        # Subquery to calculate the total ingredient cost for each menu item
+        ingredient_cost_subquery = RecipeRequirement.objects.filter(
+            menu_item=OuterRef('menu_item_id')
+        ).annotate(
+            total_cost=Sum(F('quantity') * F('ingredient__price_per_unit'))
+        ).values('total_cost')
+
+        # Annotate purchases with ingredient costs
+        purchases_with_costs = Purchase.objects.annotate(
+            ingredient_cost=Subquery(ingredient_cost_subquery)
+        )
+
+        # Calculate total profit
+        total_profit = purchases_with_costs.aggregate(
+            total_profit=Sum(F('menu_item__price') - F('ingredient_cost'))
+        )['total_profit'] or 0  # Ensure None is handled
+
+        context["total_revenue"] = total_revenue
+        context["toatal_profit"] = total_profit
+        context["purchase"] = purchases_with_costs
 
 
-
-# view the profit and revenue for the restaurant.
-def profit_revenue(request):
-    context = {}
-    context["menu"] = MenuItem.objects.all()
-    context["purchase"] = Purchase.objects.all()
-    context["profit"] = Purchase.objects.all().aggregate(Sum('menu_item__price'))
-    context["revenue"] = Purchase.objects.all().aggregate(Sum('menu_item__price'))
-    return render(request, 'inventory/profit_revenue.html', context)
-
-
+        return render(request, "inventory/profit_revenue.html", context)
+        
 
 
 class IngredientDetail(DetailView):

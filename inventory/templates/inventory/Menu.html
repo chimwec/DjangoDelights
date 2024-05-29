@@ -27,7 +27,6 @@
         <tr>
 
           <td class="table-row-1"><a href="{% url 'menuitemdetail' menu.id %}">{{ menu.name | title }}</a></td>
-          <td class="table-row-1">{{ menu.name }} </td>
           <td class="table-row-2">{{ menu.price }} </td>
           <td class="table-row-3">
             <a href="{% url 'menuitem_delete' menu.id %}" class="delete btn">Delete</a>

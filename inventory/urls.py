@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from django.conf import settings 
 
 
 urlpatterns = [
@@ -18,3 +19,9 @@ urlpatterns = [
     path('reciperequirement/create', views.RecipeRequirementCreate.as_view(), name='reciperequirement_create'),
     path('profit_revenue/', views.Profit.as_view(), name='profit_revenue'),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

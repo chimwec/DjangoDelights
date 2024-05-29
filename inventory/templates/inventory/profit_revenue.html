@@ -1,28 +1,29 @@
-
 {% extends 'inventory/base.html' %}
 {% load static %}
 
+{% block head %}
+  <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+{% endblock %}
 
 {% block content %}
+<div>
+  <h2>Profit & Revenue</h2>
+  <p>Total Revenue: {{ revenue }}</p>
+  <p>Total Profit: {{ profit }}</p>
 
-<div class="table-page">
-    <div class="table-content">
-      <hr class="line">
-      <h2>Profit & Revenue</h2>
-      {% for profit in Purchase %}
-            <td class="table-row-1">{{ profit.name }} </td>
-      {% endfor %}
-
-      {% for revenue in Purchase %}
-            <td class="table-row-2">{{ revenue.name }} </td>
-      {% endfor %}
-      
-      {% for cost in purchases %}
-            <td class="table-roe-3">{{ cost.name }}</td>
-          </tr>
-      {% endfor %}
-      </table>
-    </div>
-    <a href="{% url 'home' %}">Back home</a>
-  </div>
+  <h3>Purchases</h3>
+  {% for purchase in purchases %}
+      <div>
+          <p>Menu Item: {{ purchase.menu_item.name }}</p>
+          <p>Price: {{ purchase.menu_item.price }}</p>
+          <p>Ingredient Cost: {{ purchase.ingredient_cost }}</p>
+      </div>
+  {% endfor %}
+<div>
+    <pre>{{ revenue }}</pre>
+    <pre>{{ profit }}</pre>
+    <pre>{{ purchases }}</pre>
+</div>
+</div>
 {% endblock %}
+

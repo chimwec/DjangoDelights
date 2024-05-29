@@ -21,7 +21,7 @@
         <tr>
           <td class="table-row-1">{{ item.ingredient.name }}</td>
           <td class="table-row-2">{{ item.quantity }}</td>
-          <td class="table-row-2">{{ item.price }}</td>
+          <td class="table-row-2">{{ item.price_per_unit }}</td>
           
           <td class="table-row-3">
             <a href="{% url 'menuitemdetail' item.menu_item.id %}" class="link">{{ item.menu_item.title }}</a>
