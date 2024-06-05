@@ -1,0 +1,17 @@
+{% extends 'inventory/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<h1>Profile</h1> 
+<form method="post" action="{% url 'profile' %}">
+    <div>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </div>
+</form>
+<a href="{% url 'home' %}">Back Home</a>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from.models import MenuItem, Ingredient, RecipeRequirement, Purchase
+from.models import MenuItem, Ingredient, RecipeRequirement, Purchase, Profile
 
 
 class PurchaseForm(forms.ModelForm):
@@ -22,3 +22,11 @@ class RecipeRequirementForm(forms.ModelForm):
       model = RecipeRequirement 
       fields = "__all__"
       
+class ProfileForm(forms.ModelForm):
+   class Meta:
+      model = Profile
+      fields = "__all__"
+
+class LoginViewForm(forms.ModelForm):
+   class Meta:
+      fields = "__all__"

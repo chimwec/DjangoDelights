@@ -1,0 +1,15 @@
+{% extends 'inventory/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<h21>Please login</h2>
+<form method="post" action="{% url 'login' %}">
+    <div>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Login">
+        <a href="{% url 'home' %}">Home</a>
+    </div>
+</form>
+{% endblock %}

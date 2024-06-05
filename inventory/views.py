@@ -1,9 +1,9 @@
 from typing import Any
 from datetime import datetime, timedelta
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect, get_object_or_404
-from inventory.models import MenuItem, Ingredient, RecipeRequirement, Purchase
-from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm # Assuming you have a form for purchase details
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from inventory.models import MenuItem, Ingredient, RecipeRequirement, Purchase, Profile
+from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm, ProfileForm # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField, OuterRef, Subquery
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
@@ -14,12 +14,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 
 
 
 # Create your views here.
-#@login_required  #login our customer
-class home(TemplateView):
+ #login our customer
+class home(LoginRequiredMixin, TemplateView):
    template_name = 'inventory/home.html'
 
    def get_context_data(self):
@@ -66,7 +67,7 @@ class PurchaseList(ListView):
     model = Purchase
     template_name = 'inventory/purchase-list.html'
     context_object_name = 'purchases'
- 
+
 
 
 
@@ -97,6 +98,22 @@ class RecipeRequirementCreate(CreateView):
     form_class = RecipeRequirementForm
     template_name = 'inventory/reciperequirement_create.html'
     success_url = reverse_lazy("menuitem")
+
+class ProfileCreate(CreateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'inventory/profile.html'
+
+
+class LoginView(LoginView):
+    template_name = 'inventory/log_in.html'
+    success_url = 'home.html'
+    extra_context = {'login': 'active'}
+
+    def form_invalid(self, form):
+        return HttpResponse("Invalid credentials")
+
+
 
 
 #All Updateview
@@ -152,8 +169,8 @@ def form_valid(self, form):
     
 
 
-# function for profit and revenuefrom django.shortcuts import render
-# this view is to show profit
+# function for profit and revenue calculation
+
 def profit_revenue(request):
     context = {}
     context["menu"] = MenuItem.objects.all()
