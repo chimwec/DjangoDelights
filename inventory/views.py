@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from inventory.models import MenuItem, Ingredient, RecipeRequirement, Purchase, Profile
-from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm, ProfileForm # Assuming you have a form for purchase details
+from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm, ProfileForm, SignUpForm # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField, OuterRef, Subquery
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
@@ -31,8 +31,28 @@ class home(LoginRequiredMixin, TemplateView):
        context["reciperequirement"] = RecipeRequirement.objects.all()
        return context
    
-   
-   # inventory/views.py
+
+
+#
+# If the request method is POST, validates the form data and creates a new user.
+# The form contains username, email, and password fields. 
+# After successful validation, the user is logged in automatically.
+#
+# If the request method is GET, displays a blank registration form.
+def register(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            #we create the user object
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1') #Hash password
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('games/register.html')
+    else:
+         form = SignUpForm()
+    return render(request, 'games/register.html', {'form': form}) 
 
 
 
@@ -40,7 +60,7 @@ class home(LoginRequiredMixin, TemplateView):
 # all Listviews below   
     
 # this is a view that will show a list of ingredient
-class IngredientsList(ListView):
+class IngredientsList(LoginRequiredMixin,ListView):
     model = Ingredient
     template_name = 'inventory/ingredients-list.html'
     context_object_name = 'ingredients'
@@ -50,7 +70,7 @@ class IngredientsList(ListView):
 
 
 # this view will show the menu items
-class MenuItemView(ListView):
+class MenuItemView(LoginRequiredMixin,ListView):
     model = MenuItem
     template_name = 'inventory/menu.html'
     context_object_name = 'menu'
@@ -60,10 +80,9 @@ class MenuItemView(ListView):
         return MenuItem.objects.all()
 
     
-    
 
 # this view shows the purchses made 
-class PurchaseList(ListView):
+class PurchaseList(LoginRequiredMixin,ListView):
     model = Purchase
     template_name = 'inventory/purchase-list.html'
     context_object_name = 'purchases'
@@ -93,25 +112,34 @@ class IngredientCreate(CreateView):
     success_url = reverse_lazy('ingredientslist')
 
 
-class RecipeRequirementCreate(CreateView):
+class RecipeRequirementCreate(LoginRequiredMixin,CreateView):
     model = RecipeRequirement
     form_class = RecipeRequirementForm
     template_name = 'inventory/reciperequirement_create.html'
     success_url = reverse_lazy("menuitem")
 
-class ProfileCreate(CreateView):
+
+class ProfileCreate(LoginRequiredMixin,CreateView):
     model = Profile
     form_class = ProfileForm
     template_name = 'inventory/profile.html'
 
 
+# Login view
+
 class LoginView(LoginView):
     template_name = 'inventory/log_in.html'
-    success_url = 'home.html'
+    success_url = "home.html"
     extra_context = {'login': 'active'}
 
     def form_invalid(self, form):
         return HttpResponse("Invalid credentials")
+    
+
+def logout_request(request):
+    logout(request)
+    return redirect("home")
+    
 
 
 
@@ -160,7 +188,7 @@ def form_valid(self, form):
       i.ingredient.quantity -= i.quantity
       i.ingredient.save()
       item.save()
-      # messages.success(self.request, "successful")
+      messages.success(self.request, "successful") #i removed the # to see what happens
       return super(PurchaseCreate, self).form_valid(form)
     else:
       error_string = ", ".join(errors_list)
@@ -170,7 +198,7 @@ def form_valid(self, form):
 
 
 # function for profit and revenue calculation
-
+@login_required
 def profit_revenue(request):
     context = {}
     context["menu"] = MenuItem.objects.all()
@@ -207,7 +235,7 @@ def profit_revenue(request):
         
 
 
-class IngredientDetail(DetailView):
+class IngredientDetail(LoginRequiredMixin,DetailView):
     model = Ingredient
     template_name = "inventory/ingredient_details.html"
     

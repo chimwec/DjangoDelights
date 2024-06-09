@@ -1,6 +1,7 @@
 from django.urls import path, include
 from . import views
-from django.conf import settings 
+from django.conf import settings
+from .views import logout_request
 
 
 urlpatterns = [
@@ -18,8 +19,9 @@ urlpatterns = [
     path('purchase/', views.PurchaseCreate.as_view(), name='purchase_create'),
     path('reciperequirement/create', views.RecipeRequirementCreate.as_view(), name='reciperequirement_create'),
     path('profit_revenue/', views.profit_revenue, name='profit_revenue'),
-    path('profile/', views.ProfileCreate.as_view(), name='profile'),
-    path('login', views.LoginView.as_view(), name='login'),
+    path('accounts/profile/', views.ProfileCreate.as_view(), name='profile'),
+    path('accounts/login/', views.LoginView.as_view(), name='login'),
+    path('accounts/logout/', logout_request, name='logout'),
 ]
 
 if settings.DEBUG:
