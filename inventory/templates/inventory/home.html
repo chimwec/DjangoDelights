@@ -6,9 +6,35 @@
 <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
 
 {% endblock %}
-{% block content %}
-<p>Welcome to the Restaurants website</p>
-<p>Here is where you can find all your Menu items and ingredients, hope you will have a good time.</p>
 
-<a class="logout-button" href="{% url 'logout' %}">Log Out</a>
+{% block content %}
+<main class="main-content">
+    <header>
+        <h1>Welcome, Chef!</h1>
+        <p>Manage your recipes and menu</p>
+        <input type="search" placeholder="Search">
+    </header>
+    <section class="content">
+        <div class="card calendar">
+            <h2>RecipeRanger Kitchen</h2>
+            <!-- Calendar Content -->
+        </div>
+        <div class="card ingredient-inventory">
+            <h2>Ingredient Inventory</h2>
+            <!-- Ingredient Inventory Content -->
+        </div>
+        <div class="card menu-costs">
+            <h2>Menu Costs</h2>
+            <!-- Menu Costs Content -->
+        </div>
+        <div class="card recipe-details">
+            <h2>Recipe details</h2>
+            <!-- Recipe details Content -->
+        </div>
+        <div class="card inventory-directory">
+            <h2>Inventory directory</h2>
+            <!-- Inventory directory Content -->
+        </div>
+    </section>
+</main>
 {% endblock %}

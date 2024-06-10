@@ -1,32 +1,38 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
     <meta charset="utf-8"/>
-    <title>{% block title %}Restaurants Inventory{% endblock %}</title>
+    <link rel="stylesheet" href="inventory/main.css">
+    <title>{% block title %}SupplySmart{% endblock %}</title>
     {% block head %}
-    <h1>Welcome to the Restaurants Inventory</h1>
+    <h1 class="title">Welcome to the Restaurants Inventory</h1>
 
     {% endblock %}
 </head>
 
 <body>
+    <div class="container">
+      <header>
     
-    
-    
-    <nav class="navbar">
-        <ul>
-            <a class="nav-item" href="{% url 'home' %}">Home</a>
-            <a class="nav-item" href="{% url 'ingredientslist' %}">Ingredients</a>
-            <a class="nav-item" href="{% url 'menuitem' %}">Menu</a>
-            <a class="nav-item" href="{% url 'purchase-list' %}">Purchase</a>
-            <a class="nav-item" href="{% url 'profit_revenue' %}">Profit & Revenue</a>
-            <a class="nav-item" href="{% url 'reciperequirement_create' %}">RecipeRequirement</a>
-            <a class="nav-item" href="{% url 'profile' %}">Profile</a>
-        </ul>
-      </nav>
+       <aside class="sidebar">
+         <ul>
+            <li><a href="{% url 'home' %}">🏠 Home</a></li>
+            <li><a href="{% url 'profile' %}">👤 Profile</a></li>
+            <li><a href="{% url 'menuitem' %}">📅 Menu</a></li>
+            <li><a href="{% url 'ingredientslist' %}">🛒 Inventory</a></li>
+            <li><a href="{% url 'purchase-list' %}">📊 Purchases</a></li>
+            <li><a href="{% url 'reciperequirement_create' %}">⚙️ Recipe Requirement</a></li>
+            <li><a href="{% url 'profit_revenue' %}">📈 Profit & Revenue</a></li>
+            <li><a href="{% url 'logout' %}">🔑 Log Out</a></li>
+         </ul>
+       </aside>
+       </nav>
+      </header>
       
-
     {% block content %}
+
     {% endblock %}
+    </div>
 </body>
 </html>
