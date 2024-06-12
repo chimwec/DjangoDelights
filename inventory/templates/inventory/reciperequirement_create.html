@@ -1,31 +1,61 @@
 {% extends 'inventory/base.html' %}
-{% load static %}
+{% load static %}                     
 
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+    <title>Add New Recipe</title>
+    <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+
 {% endblock %}
 
 {% block content %}
-<div class="body">
-  {% if messages %}
-    <div class="message">
-      {% for message in messages %}
-        <div class="message-text">{{ message }}</div>
-      {% endfor %}
+<body>
+    <div class="sidebar">
+        <ul>
+            <li>Menu</li>
+            <li>Ingredient</li>
+            <li>Menu</li>
+            <li class="active">Inve</li>
+            <li>Add</li>
+            <li>Sign out</li>
+        </ul>
     </div>
-  {% endif %}
+    <div class="main-content">
+        <h1>Add new recipe</h1>
+        <form>
+            <div class="recipe-type">
+                <label>Recipe type</label>
+                <input type="radio" name="type" value="main"> Main
+                <input type="radio" name="type" value="dessert"> Dessert
+                <input type="radio" name="type" value="appetiz"> Appetiz
+            </div>
+            <div class="body">
+              {% if messages %}
+                <div class="message">
+                  {% for message in messages %}
+                    <div class="message-text">{{ message }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
 
-  <div class="form">
-    <div class="form-title"><h2>Add RecipeRequirement for Menu item :</h2></div>
-    <hr class="line">
-    <div class="form_content">
-      <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <br><input type="submit" class="btn_login" value="Confirm"/>
-      </form>
+              <div class="form">
+                <div class="form-title"><h2>Add RecipeRequirement for Menu item :</h2></div>
+                <hr class="line">
+                <div class="form_content">
+                  <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <br><input type="submit" class="btn_login" value="Confirm"/>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+           
+            <div class="buttons">
+                <button type="submit">Add recipe</button>
+            </div>
+        </form>
     </div>
-  </div>
-</div>
-{% endblock %}                                                                                         v  
+</body>
+{% endblock %} 

@@ -72,3 +72,70 @@ header input[type="search"] {
 .calendar, .ingredient-inventory, .menu-costs, .recipe-details, .inventory-directory {
     height: 200px; /* Adjust height as needed */
 }
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    margin: 0;
+    height: 100vh;
+}
+
+.sidebar {
+    background-color: #a23a2f;
+    color: white;
+    width: 200px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 20px 0;
+}
+
+.sidebar .active {
+    font-weight: bold;
+}
+
+.main-content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+form .recipe-type {
+    grid-column: 1 / -1;
+}
+
+.buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    background-color: #a23a2f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
