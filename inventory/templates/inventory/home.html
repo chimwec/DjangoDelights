@@ -1,40 +1,98 @@
-{% extends 'inventory/base.html' %}
 {% load static %}
-
-
-{% block head %}
-<link rel="stylesheet" href="{% static 'inventory/main.css' %}">
-
-{% endblock %}
-
-{% block content %}
-<main class="main-content">
-    <header>
-        <h1>Welcome, Chef!</h1>
-        <p>Manage your recipes and menu</p>
-        <input type="search" placeholder="Search">
-    </header>
-    <section class="content">
-        <div class="card calendar">
-            <h2>RecipeRanger Kitchen</h2>
-            <!-- Calendar Content -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef Dashboard</title>
+    <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li><a href="{% url 'home' %}">🏠</a></li>
+            <li><a href="{% url 'profile' %}">👤</a></li>
+            <li><a href="{% url 'purchase-list' %}">📊</a></li>
+            <li><a href="{% url 'menuitem' %}">🍽️</a></li>
+            <li><a href="{% url 'reciperequirement_create' %}">➕</a></li>
+            <li><a href="{% url 'reciperequirement_create' %}">⚙️</a></li>
+            <li><a href="{% url 'logout' %}">🔓</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Welcome, {{ user.username }}!</h1>
+            <p>Manage your recipes and menu</p>
+            <form method="get" action="search">
+                <input type="text" name="q" placeholder="Search" value="{{ request.GET.q }}">
+                <button type="submit">🔍</button>
+            </form>
+            <div class="user-avatar">
+                <img src="{{ user.profile.avatar.url }}" alt="Avatar">
+            </div>
+        </header>
+        <div class="content">
+            <div class="card kitchen-schedule">
+                <h2>RecipeRanger Kitchen</h2>
+                <div class="schedule">
+                    {% for day in days_of_week %}
+                        <div>{{ day }}</div>
+                    {% endfor %}
+                </div>
+                <div class="calendar">
+                    {% for week in calendar %}
+                        <div class="week">
+                            {% for day in week %}
+                                <div class="day {% if day.is_today %}today{% endif %}">
+                                    {{ day.date }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card ingredient-inventory">
+                <h2>Ingredient Inventory</h2>
+                <ul>
+                    <li>Add new ingredient <span>• Price</span></li>
+                    <li>Unit cost <span>• Quantity</span></li>
+                    <li>Low stock alert <span>• Track inventory</span></li>
+                </ul>
+            </div>
+            <div class="card menu-costs">
+                <h2>Menu Costs</h2>
+                <ul>
+                    <li>Item pricing</li>
+                    <li>Recipe ideas</li>
+                    <li>Menu planning</li>
+                    <li>Ingredient tracking system</li>
+                    <li>Cost analysis tool</li>
+                </ul>
+                <button><a href="{% url 'menuitem-create' %}">Add Menu</a></button>
+            </div>
+            <div class="card recipe-details">
+                <h2>Recipe details</h2>
+                <div>
+                    <p>Chef's special in Q3</p>
+                    <button>Manage your recipes and costs</button>
+                </div>
+                <div>
+                    <p>Secret ingredient in Q3</p>
+                    <button>Enhance your dishes with</button>
+                </div>
+            </div>
+            <div class="card inventory-directory">
+                <h2>Inventory directory</h2>
+                <div class="chef-cards">
+                    {% for chef in chefs %}
+                        <div class="chef-card">
+                            <img src="{{ chef.avatar.url }}" alt="{{ chef.name }}">
+                            <p>{{ chef.name }} - {{ chef.position }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        <div class="card ingredient-inventory">
-            <h2>Ingredient Inventory</h2>
-            <!-- Ingredient Inventory Content -->
-        </div>
-        <div class="card menu-costs">
-            <h2>Menu Costs</h2>
-            <!-- Menu Costs Content -->
-        </div>
-        <div class="card recipe-details">
-            <h2>Recipe details</h2>
-            <!-- Recipe details Content -->
-        </div>
-        <div class="card inventory-directory">
-            <h2>Inventory directory</h2>
-            <!-- Inventory directory Content -->
-        </div>
-    </section>
-</main>
-{% endblock %}
+    </div>
+</body>
+</html>

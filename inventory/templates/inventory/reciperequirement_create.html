@@ -10,16 +10,7 @@
 
 {% block content %}
 <body>
-    <div class="sidebar">
-        <ul>
-            <li>Menu</li>
-            <li>Ingredient</li>
-            <li>Menu</li>
-            <li class="active">Inve</li>
-            <li>Add</li>
-            <li>Sign out</li>
-        </ul>
-    </div>
+   
     <div class="main-content">
         <h1>Add new recipe</h1>
         <form>
@@ -40,7 +31,7 @@
 
               <div class="form">
                 <div class="form-title"><h2>Add RecipeRequirement for Menu item :</h2></div>
-                <hr class="line">
+              
                 <div class="form_content">
                   <form method="post">
                     {% csrf_token %}
@@ -54,8 +45,11 @@
            
             <div class="buttons">
                 <button type="submit">Add recipe</button>
+                
             </div>
         </form>
+
+  <a href="{% url 'home' %}">Back home</a>
     </div>
 </body>
 {% endblock %} 

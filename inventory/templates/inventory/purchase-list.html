@@ -1,10 +1,11 @@
-
 {% extends 'inventory/base.html' %}
 
 {% load static %}
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+
+  <title>{% block title %}SupplySmart{% endblock %}</title>
 {% endblock %}
 
 {% block content %}
@@ -16,8 +17,8 @@
     {% endfor %}
     </div>
   {% endif %}
+
   <div class="table-content">
-    <p class="create_btn"><a href="{% url 'purchase_create' %}">Add purchase</a></p>
     <hr class="line">
     <h2>Purchases History</h2>
     <table class="table">
@@ -40,6 +41,8 @@
   </div>
 </div>
 </div>
-<a href="{% url 'home' %}">Back home</a>
 </div>
+<a href="{% url 'purchase_create' %}">🛒 Add purchase</a>
+<a href="{% url 'home' %}">🏠Back home</a>
+
 {% endblock %}
