@@ -19,7 +19,7 @@ body {
 
 .sidebar ul {
     list-style-type: none;
-    padding: 0;
+    padding: 0px;
 }
 
 .sidebar ul li {
@@ -158,7 +158,7 @@ body {
 .sidebar {
     background-color: #a23a2f;
     color: white;
-    width: 60px;
+    width: fit-content;
     padding: 20px 0;
     display: flex;
     flex-direction: column;
@@ -202,6 +202,9 @@ header p {
 header form {
     display: flex;
     align-items: center;
+    border: 1px solid #ccc; /* border around the form */
+    border-radius: 25px; /* rounded corners */
+    overflow: hidden; /* to ensure rounded corners work */
 }
 
 header input {
