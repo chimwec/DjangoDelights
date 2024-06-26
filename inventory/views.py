@@ -1,7 +1,8 @@
 from typing import Any
 from datetime import datetime, timedelta
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from inventory.models import MenuItem, Ingredient, RecipeRequirement, Purchase, Profile
 from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm, ProfileForm, SignUpForm # Assuming you have a form for purchase details
 from django.views.generic import TemplateView, ListView, DetailView
@@ -20,7 +21,7 @@ from django.contrib.auth.views import LoginView
 
 # Create your views here.
  #login our customer
-class home(LoginRequiredMixin, TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
    template_name = 'inventory/home.html'
 
    def get_context_data(self):
@@ -49,10 +50,28 @@ def register(request):
             raw_password = form.cleaned_data.get('password1') #Hash password
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('games/register.html')
+            return redirect('inventory/.html')
     else:
          form = SignUpForm()
     return render(request, 'games/register.html', {'form': form}) 
+
+
+
+# Login view
+
+class LoginView(LoginView):
+    template_name = 'inventory/log_in.html'
+    success_url = reverse_lazy("home")
+    extra_context = {'login': 'active'}
+
+    def form_invalid(self, form):
+        return HttpResponse("Invalid credentials")
+    
+
+def logout_request(request):
+    logout(request)
+    return redirect("home")
+    
 
 
 
@@ -125,23 +144,6 @@ class ProfileCreate(LoginRequiredMixin,CreateView):
     template_name = 'inventory/profile.html'
 
 
-# Login view
-
-class LoginView(LoginView):
-    template_name = 'inventory/log_in.html'
-    success_url = "home.html"
-    extra_context = {'login': 'active'}
-
-    def form_invalid(self, form):
-        return HttpResponse("Invalid credentials")
-    
-
-def logout_request(request):
-    logout(request)
-    return redirect("home")
-    
-
-
 
 
 #All Updateview
@@ -195,6 +197,8 @@ def form_valid(self, form):
       messages.error(self.request, f"not enough ingredients in the inventory! ({error_string})")
       return self.render_to_response(self.get_context_data(form=form))
     
+
+
 
 
 # function for profit and revenue calculation

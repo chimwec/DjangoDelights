@@ -5,7 +5,7 @@ from .views import logout_request
 
 
 urlpatterns = [
-    path('', views.home.as_view(), name='home'),
+    path('', views.HomeView.as_view(), name='home'),
     path('ingredient/List', views.IngredientsList.as_view(), name='ingredientslist'),
     path('ingredients/new/', views.IngredientCreate.as_view(), name='ingredient-create'),
     path('ingredient/<pk>/update', views.IngredientUpdate.as_view(), name='ingredientupdate'),
@@ -23,9 +23,3 @@ urlpatterns = [
     path('accounts/login/', views.LoginView.as_view(), name='login'),
     path('accounts/logout/', logout_request, name='logout'),
 ]
-
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns

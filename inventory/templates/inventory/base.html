@@ -1,9 +1,9 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="">
 <head>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="inventory/main.css">
+    <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
     <title>{% block title %}SupplySmart{% endblock %}</title>
     {% block head %}
     <h1 class="title">Welcome to the Restaurants Inventory</h1>
