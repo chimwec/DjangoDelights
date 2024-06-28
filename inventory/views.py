@@ -64,6 +64,9 @@ class LoginView(LoginView):
     success_url = reverse_lazy("home")
     extra_context = {'login': 'active'}
 
+    def get_success_url(self):
+        return self.success_url
+
     def form_invalid(self, form):
         return HttpResponse("Invalid credentials")
     
