@@ -222,7 +222,7 @@ header .user-avatar img {
 }
 
 .card {
-    background-color: white;
+    background-color: black;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -292,7 +292,7 @@ header .user-avatar img {
 }
 
 .recipe-details button {
-    background-color: #eee;
+    background-color: black; /*from white to black*/
     padding: 10px;
     width: 100%;
     border: none;
@@ -316,19 +316,114 @@ header .user-avatar img {
 
 
 /* this is the login page css */
+.html, body {
+    height: 100%;
+    margin: 0;
+}
 
 .container {
-    display : flex;
-    flex-direction : row;
-    
- }
+    display: flex;
+    height: 100vh;
+    width: 500lvh;
+}
 
-.right {
-    text-align: center;
-    padding: 40px;
-  }
+.left-panel {
+    flex: 1;
+    background-color: #ffd6d6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-.left {
-    background: #fce4e4;
-    text-align: justify
- }
+.right-panel {
+    flex: 1;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form {
+    width: 80%;
+    max-width: 400px;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.illustration {
+    width: 80%;
+    max-width: 300px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .left-panel {
+        display: none;
+    }
+    .right-panel {
+        flex: 1;
+        padding: 40px 20px;
+    }
+    .logo {
+        position: static;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h1 {
+        font-size: 2em;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-form {
+        width: 100%;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+}

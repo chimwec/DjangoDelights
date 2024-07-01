@@ -10,18 +10,15 @@
     <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
 </head>
 <body>
+    <div class="logo">🍴 RecipeRan</div>
     <div class="container">
-        <div class="left">
-            <div class="logo">
-                <h1>RecipeRan</h1>
-            </div>
-            <div class="illustration">
-                <img src="{% static 'inventory/images/IMG_2162 copy.JPG' %}" alt="Illustration">
-            </div>
+        <div class="left-panel">
+            <img src="{% static '/inventory/images/Image.png' %}" alt="Recipe illustration" class="illustration">
         </div>
-        <div class="right">
+
+        <div class="right-panel">
             <div class="login-form">
-                <h2>Log in</h2>
+                <h1>Log in</h1>
                 <form method="post">
                     {% csrf_token %}
                     <div class="form-group">
@@ -32,7 +29,7 @@
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password" required>
                     </div>
-                    <button class="button2" type="submit">Sign in</button>
+                    <button type="submit">Sign in</button>
                 </form>
             </div>
         </div>
