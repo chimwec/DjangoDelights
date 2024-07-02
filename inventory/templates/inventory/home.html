@@ -4,92 +4,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}SupplySmart{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+    <title>RecipeRanger Kitchen</title>
+    <link rel="stylesheet" href="{% static 'inventory/home.css' %}">
 </head>
 <body>
     <div class="sidebar">
-        <ul>
-            <li><a href="{% url 'home' %}">🏠</a></li>
-            <li><a href="{% url 'profile' %}">👤</a></li>
-            <li><a href="{% url 'purchase-list' %}">📊</a></li>
-            <li><a href="{% url 'menuitem' %}">🍽️</a></li>
-            <li><a href="{% url 'reciperequirement_create' %}">➕</a></li>
-            <li><a href="{% url 'reciperequirement_create' %}">⚙️</a></li>
-            <li><a href="{% url 'logout' %}">🔓</a></li>
-        </ul>
+        <a href="{% url 'profile' %}">👤</a>
+        <a href="{% url 'menuitem' %}">📅 </a>
+        <a href="{% url 'ingredientslist' %}">🛒</a>
+        <a href="{% url 'purchase-list' %}">📊 </a>
+        <a href="{% url 'reciperequirement_create' %}">⚙️ </a>
+        <a href="{% url 'profit_revenue' %}">📈 </a>
+        <a href="{% url 'logout' %}">🔑</a>
     </div>
     <div class="main-content">
-        <header>
-            <h1>Welcome, {{ user.username }}!</h1>
-            <p>Manage your recipes and menu</p>
-            <form method="get" action="search">
-                <input type="text" name="q" placeholder="Search" value="{{ request.GET.q }}">
-                <button type="submit">🔍</button>
-            </form>
-            <div class="user-avatar">
-                <img src="{{ user.profile.avatar.url }}" alt="Avatar">
+        <div class="header">
+            <div>
+                <h1>Welcome, Chef!</h1>
+                <p>Manage your recipes and menu</p>
             </div>
-        </header>
-        <div class="content">
-            <div class="card kitchen-schedule">
+            <input type="text" class="search-bar" placeholder="Search">
+            <img src="{% static 'images/chef_avatar.jpg' %}" alt="Chef Avatar" class="chef-avatar">
+        </div>
+        
+        <div class="grid-container">
+            <div class="grid-item">
                 <h2>RecipeRanger Kitchen</h2>
-                <div class="schedule">
-                    {% for day in days_of_week %}
-                        <div>{{ day }}</div>
-                    {% endfor %}
-                </div>
                 <div class="calendar">
-                    {% for week in calendar %}
-                        <div class="week">
-                            {% for day in week %}
-                                <div class="day {% if day.is_today %}today{% endif %}">
-                                    {{ day.date }}
-                                </div>
-                            {% endfor %}
+                    {% now "Y" as current_year %}
+                    {% now "n" as current_month %}
+                    {% now "j" as current_day %}
+                    {% for day in "123456789101112131415161718192021222324252627282930"|make_list %}
+                        <div class="calendar-day {% if day == current_day %}active{% endif %}">
+                            {{ day }}
                         </div>
                     {% endfor %}
                 </div>
             </div>
-            <div class="card ingredient-inventory">
+            <div class="grid-item">
                 <h2>Ingredient Inventory</h2>
-                <ul>
-                    <li>Add new ingredient <span>• Price</span></li>
-                    <li>Unit cost <span>• Quantity</span></li>
-                    <li>Low stock alert <span>• Track inventory</span></li>
-                </ul>
+                <div>
+                    <button>Add new ingredient</button>
+                    <p>Unit cost</p>
+                    <p>Low stock alert</p>
+                </div>
             </div>
-            <div class="card menu-costs">
+            <div class="grid-item">
                 <h2>Menu Costs</h2>
-                <ul>
-                    <li>Item pricing</li>
-                    <li>Recipe ideas</li>
-                    <li>Menu planning</li>
-                    <li>Ingredient tracking system</li>
-                    <li>Cost analysis tool</li>
-                </ul>
-                <button><a href="{% url 'menuitem-create' %}">Add Menu</a></button>
+                <div class="menu-item">
+                    <img src="{% static 'images/icon_pricing.jpg' %}" alt="Pricing">
+                    <span>Item pricing</span>
+                </div>
+                <div class="menu-item">
+                    <img src="{% static 'images/icon_recipe.jpg' %}" alt="Recipe">
+                    <span>Recipe ideas</span>
+                </div>
+                <div class="menu-item">
+                    <img src="{% static 'images/icon_menu.jpg' %}" alt="Menu">
+                    <span>Menu planning</span>
+                </div>
+                <div class="menu-item">
+                    <img src="{% static 'images/icon_tracking.jpg' %}" alt="Tracking">
+                    <span>Ingredient tracking system</span>
+                </div>
+                <div class="menu-item">
+                    <img src="{% static 'images/icon_analysis.jpg' %}" alt="Analysis">
+                    <span>Cost analysis tool</span>
+                </div>
+                <button>Add item</button>
             </div>
-            <div class="card recipe-details">
+            <div class="grid-item">
                 <h2>Recipe details</h2>
-                <div>
-                    <p>Chef's special in Q3</p>
-                    <button>Manage your recipes and costs</button>
+                <div class="menu-item">
+                    <img src="{% static 'images/chef_special.jpg' %}" alt="Chef's special">
+                    <div>
+                        <strong>Chef's special in Q3</strong>
+                        <p>Manage your recipes and costs</p>
+                    </div>
                 </div>
-                <div>
-                    <p>Secret ingredient in Q3</p>
-                    <button>Enhance your dishes with</button>
+                <div class="menu-item">
+                    <img src="{% static 'images/secret_ingredient.jpg' %}" alt="Secret ingredient">
+                    <div>
+                        <strong>Secret ingredient in Q3</strong>
+                        <p>Enhance your dishes with</p>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button>Ingredient Cost calculation</button>
+                    <button>Recipe Ingredient</button>
+                    <button>Cost Menu pricing</button>
                 </div>
             </div>
-            <div class="card inventory-directory">
-                <h2>Inventory directory</h2>
-                <div class="chef-cards">
-                    {% for chef in chefs %}
-                        <div class="chef-card">
-                            <img src="{{ chef.avatar.url }}" alt="{{ chef.name }}">
-                            <p>{{ chef.name }} - {{ chef.position }}</p>
-                        </div>
-                    {% endfor %}
+        </div>
+        
+        <div class="grid-item inventory-section">
+            <h2>Inventory directory</h2>
+            <div class="inventory-directory">
+                <div class="chef-card">
+                    <img src="{% static 'images/chef_a.jpg' %}" alt="Chef A">
+                    <div>
+                        <strong>Chef A.</strong>
+                        <p>Head Chef</p>
+                    </div>
+                </div>
+                <div class="chef-card">
+                    <img src="{% static 'images/chef_b.jpg' %}" alt="Chef B">
+                    <div>
+                        <strong>Chef B.</strong>
+                        <p>Sous Chef</p>
+                    </div>
+                </div>
+                <div class="chef-card">
+                    <img src="{% static 'images/chef_c.jpg' %}" alt="Chef C">
+                    <div>
+                        <strong>Chef C.</strong>
+                        <p>Line Cook</p>
+                    </div>
+                </div>
+                <div class="chef-card">
+                    <img src="{% static 'images/chef_d.jpg' %}" alt="Chef D">
+                    <div>
+                        <strong>Chef D.</strong>
+                        <p>Pastry Chef</p>
+                    </div>
                 </div>
             </div>
         </div>
