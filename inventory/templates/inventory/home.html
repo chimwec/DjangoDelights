@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="sidebar">
+      <ul>
         <a href="{% url 'profile' %}">👤</a>
         <a href="{% url 'menuitem' %}">📅 </a>
         <a href="{% url 'ingredientslist' %}">🛒</a>
@@ -16,6 +17,7 @@
         <a href="{% url 'reciperequirement_create' %}">⚙️ </a>
         <a href="{% url 'profit_revenue' %}">📈 </a>
         <a href="{% url 'logout' %}">🔑</a>
+       </ul>
     </div>
     <div class="main-content">
         <div class="header">
@@ -24,7 +26,7 @@
                 <p>Manage your recipes and menu</p>
             </div>
             <input type="text" class="search-bar" placeholder="Search">
-            <img src="{% static 'images/chef_avatar.jpg' %}" alt="Chef Avatar" class="chef-avatar">
+            <img src="{% static '/inventory/images/healthy-food_6265674.png' %}" alt="Chef Avatar" class="chef-avatar">
         </div>
         
         <div class="grid-container">
@@ -122,7 +124,7 @@
                     </div>
                 </div>
                 <div class="chef-card">
-                    <img src="{% static 'images/chef_d.jpg' %}" alt="Chef D">
+                    <img src="{% static '/inventory/images/baker.png' %}" alt="Chef D">
                     <div>
                         <strong>Chef D.</strong>
                         <p>Pastry Chef</p>

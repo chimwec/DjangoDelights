@@ -6,20 +6,31 @@ body {
 }
 
 .sidebar {
-    width: 100px; /* changed from 60px*/
+    width: 80px;
     background-color: #d9534f;
-    height: 100vh; /* changed from 100vh*/
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px; 
+    padding-top: 20px;
+    justify-content: flex-start; /* Added to distribute space */
 }
 
 .sidebar-icon {
     color: white;
     font-size: 24px;
-    margin-bottom: 60px; /* changed from 30px*/
+    margin-bottom: 30px; /* Increased from previous value */
+    padding: 10px; /* Added padding for larger click area */
+    cursor: pointer; /* Optional: adds a pointer cursor on hover */
 }
+
+/* Optional: Add hover effect */
+.sidebar-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}   
+
+
 
 .main-content {
     flex-grow: 1;
