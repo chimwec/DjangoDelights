@@ -1,0 +1,195 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background-color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+h1 {
+    margin: 0;
+    color: #ff0000;
+}
+
+.search-input {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    margin-left: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-left: 15px;
+}
+
+.main-content {
+    display: flex;
+    flex-grow: 1;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #a23a2f;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    color: white;
+}
+
+.sidebar-icon a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* Optional: Add hover effect */
+.sidebar-icon a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-icon a::before {
+    content: attr(data-icon);
+    font-size: 18px; /* Adjust icon size */
+    margin-bottom: 20px; /* Space between icon and text */
+    text-align: center;
+}
+
+.sidebar-icon {
+    margin-bottom: 10px; /* Adjust spacing between icons */
+    margin-top: 30px;
+}
+
+.add-button button {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: #ff0000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.main-content {
+    display: flex;
+    flex-grow: 1;
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.recipe-requirements {
+    display: flex;
+    gap: 20px;
+}
+
+.left-column {
+    flex: 1;
+}
+
+.ingredient-card {
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ingredient-info {
+    flex-grow: 1;
+}
+
+.ingredient-info h3 {
+    margin: 0 0 10px 0;
+}
+
+.ingredient-info p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.ingredient-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+    color: white;
+    font-size: 0.9em;
+}
+
+.update {
+    background-color: #4CAF50;
+}
+
+.delete {
+    background-color: #f44336;
+}
+
+.add-item-btn {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.add-item-btn a {
+    color: white;
+    text-decoration: none;
+}
+
+/* ... (styles for right column content remain unchanged) ... */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .recipe-requirements {
+        flex-direction: column;
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+    }
+}

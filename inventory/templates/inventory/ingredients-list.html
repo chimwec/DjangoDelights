@@ -1,41 +1,56 @@
-{% extends 'inventory/base.html' %}
+
 {% load static %}
-
-{% block head %}
-  <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="table-page">
-  <div class="table-content">
-    <p class="create_btn"><a href="{% url 'ingredient-create' %}">Add Ingredient</a></p>
-    <hr class="line">
-    <h2>Ingredients in the inventory</h2>
-    <table class="table">
-      <tr class="table-header">
-        <tr class="">
-          <th class="header-row-1">Name</th>
-          <th class="header-row-2">Quantity</th>
-          <th class="header-row-1">Price</th>
-          <th class="header-row-3">Unit</th>
-          <th class="header-row-4">Actions</th>
-        </tr>
-      </tr>
-
-      {% for ingredient in object_list %}
-        <tr>
-          <td class="table-row-1"><a href="{% url 'ingredientdetail' ingredient.id %}">{{ ingredient.name | title }}</a></td>
-          <td class="table-row-1">{{ ingredient.quantity}} </td>
-          <td class="table-row-2">{{ ingredient.price_per_unit }} </td>
-          <td class="table-row-2">{{ ingredient.unit }} </td>
-          <td>
-            <a href="{% url 'ingredientupdate' ingredient.id %}" class="update btn">Update</a>
-            <a href="{% url 'ingredientdelete' ingredient.id %}" class="delete btn">delete</a>
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
-  </div>
-  <a href="{% url 'home' %}">Back home</a>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <link rel="stylesheet" href="{% static 'inventory/ingredients.css' %}">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="main-content">
+          <nav class="sidebar">
+            <div class="sidebar-icon">
+              <ul>
+                <a href="{% url 'home' %}">🏠 Home</a>
+                <a href="{% url 'profile' %}">👤 Profile</a>
+                <a href="{% url 'menuitem' %}">📅 Menu</a>
+                <a href="{% url 'purchase-list' %}">📊 Purchases</a>
+                <a href="{% url 'reciperequirement_create' %}">⚙️ Recipe Requirement</a>
+                <a href="{% url 'profit_revenue' %}">📈 Profit & Revenue</a>
+                <a href="{% url 'logout' %}">🔑 Log out</a>
+               </ul>
+            </div>
+          </nav>
+            <main>
+              <h2>Inventory</h2>
+              <div class="ingredient-input">
+                  <button class="add-item-btn"><a href="{% url 'ingredient-create' %}">Add Ingredient</a></button>
+              </div>
+              <div class="recipe-requirements">
+                  <div class="left-column">
+                      {% for ingredient in object_list %}
+                      <div class="ingredient-card">
+                          <div class="ingredient-info">
+                              <h3><a href="{% url 'ingredientdetail' ingredient.id %}">{{ ingredient.name | title }}</a></h3>
+                              <p>Quantity: {{ ingredient.quantity }} {{ ingredient.unit }}</p>
+                              <p>Price: {{ ingredient.price_per_unit }} per {{ ingredient.unit }}</p>
+                          </div>
+                          <div class="ingredient-actions">
+                              <a href="{% url 'ingredientupdate' ingredient.id %}" class="update btn">Update</a>
+                              <a href="{% url 'ingredientdelete' ingredient.id %}" class="delete btn">Delete</a>
+                          </div>
+                      </div>
+                      {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,20 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RecipeRanger Kitchen</title>
+    <title>SupplySmart</title>
     <link rel="stylesheet" href="{% static 'inventory/home.css' %}">
 </head>
 <body>
     <div class="sidebar">
-      <ul>
-        <a href="{% url 'profile' %}">👤</a>
-        <a href="{% url 'menuitem' %}">📅 </a>
-        <a href="{% url 'ingredientslist' %}">🛒</a>
-        <a href="{% url 'purchase-list' %}">📊 </a>
-        <a href="{% url 'reciperequirement_create' %}">⚙️ </a>
-        <a href="{% url 'profit_revenue' %}">📈 </a>
-        <a href="{% url 'logout' %}">🔑</a>
-       </ul>
+        <div class="sidebar-icon">
+        <a href="{% url 'profile' %}">👤 Profile</a>
+        </div>
+        <div class="sidebar-icon">
+            <a href="{% url 'menuitem' %}">📅 Menu</a>
+        </div>
+        <div class="sidebar-icon">
+            <a href="{% url 'purchase-list' %}">📊 Purchases</a>
+        </div>
+        <div class="sidebar-icon">
+            <a href="{% url 'reciperequirement_create' %}">⚙️ Recipe Requirement</a>
+        </div>
+        <div class="sidebar-icon">
+            <a href="{% url 'profit_revenue' %}">📈 Profit & Revenue</a>
+        </div>
+        <div class="sidebar-icon">
+            <a href="{% url 'ingredientslist' %}">🛒 Inventory</a>
+        </div>
+        <div class="sidebar-icon">
+            <a href="{% url 'logout' %}">🔑 Log Out</a>
+        </div>
     </div>
     <div class="main-content">
         <div class="header">
