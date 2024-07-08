@@ -1,0 +1,86 @@
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #a23a2f;
+    padding: 20px;
+    color: white;
+}
+
+.sidebar-icon {
+    margin-bottom: 20px;
+}
+
+.sidebar-icon a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.sidebar-button {
+    margin-top: 20px;
+}
+
+.sidebar-button a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    background-color: #333;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #F5F5F5;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+.form-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-left, .form-right {
+    width: 48%;
+}
+
+.form-left label, .form-right label {
+    display: block;
+    margin-top: 10px;
+}
+
+.form-left input, .form-right input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.buttons {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.btn-add {
+    background-color: #D64933;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu-item img {
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+}

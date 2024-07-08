@@ -1,55 +1,55 @@
 {% extends 'inventory/base.html' %}
 {% load static %}                     
 
-
 {% block head %}
     <title>Add New Recipe</title>
-    <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
-
+    <link rel="stylesheet" href="{% static 'inventory/recipe.css' %}">
 {% endblock %}
 
 {% block content %}
 <body>
-   
+
     <div class="main-content">
         <h1>Add new recipe</h1>
-        <form>
+        
+        {% if messages %}
+        <div class="message">
+            {% for message in messages %}
+            <div class="message-text">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
             <div class="recipe-type">
                 <label>Recipe type</label>
                 <input type="radio" name="type" value="main"> Main
                 <input type="radio" name="type" value="dessert"> Dessert
                 <input type="radio" name="type" value="appetiz"> Appetiz
             </div>
-            <div class="body">
-              {% if messages %}
-                <div class="message">
-                  {% for message in messages %}
-                    <div class="message-text">{{ message }}</div>
-                  {% endfor %}
-                </div>
-              {% endif %}
+            
+            <div class="menu-item">
+              <img src="{% static '/inventory/images/pexels-eva-bronzini-5502851.jpg' %}" alt="image1">
+            </div>
+            <div class="menu-item">
+              <img src="{% static '/inventory/images/pexels-mali-141815.jpg' %}" alt="image2">
+            </div>
+            
+            {{ form.as_p }}
 
-              <div class="form">
-                <div class="form-title"><h2>Add RecipeRequirement for Menu item :</h2></div>
-              
-                <div class="form_content">
-                  <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <br><input type="submit" class="btn_login" value="Confirm"/>
-                  </form>
-                </div>
-              </div>
+            <div class="menu-item">
+              <img src="{% static '/inventory/images/pexels-monicore-2624397.jpg' %}" alt="image3">
             </div>
 
-           
+            <div class="menu-item">
+              <img src="{% static '/inventory/images/pexels-polina-kovaleva-5645094.jpg' %}" alt="image4">
+            </div>
+
             <div class="buttons">
-                <button type="submit">Add recipe</button>
-                
+                <button type="submit" class="btn-add">Add recipe</button>
             </div>
         </form>
-
-  <a href="{% url 'home' %}">Back home</a>
     </div>
 </body>
-{% endblock %} 
+{% endblock %}
