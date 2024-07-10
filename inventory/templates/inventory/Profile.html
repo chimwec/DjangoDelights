@@ -2,19 +2,27 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'inventory/main.css' %}"/>
+<link rel="stylesheet" href="{% static 'inventory/profile.css' %}"/>
 {% endblock %}
 
-
 {% block content %}
-<h1>Profile</h1> 
-<form method="post" action="{% url 'profile' %}">
-    <div>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <img src="{% static '/inventory/images/user_156472.png' %}" alt="Profile Avatar">
+        </div>
     </div>
-</form>
-<a href="{% url 'home' %}">Back Home</a>
-
+    <form method="post" action="{% url 'profile' %}" class="profile-form">
+        {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+      
+    </form>
+    <div class="button-group">
+        <button type="reset" class="reset-btn">RESET</button>
+        <button type="submit" class="register-btn">REGISTER</button>
+    </div>
+    <a href="{% url 'home' %}" class="back-link">Back Home</a>
+</div>
 {% endblock %}

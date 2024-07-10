@@ -1,43 +1,19 @@
+{% extends 'inventory/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% block head %}
     <title>SupplySmart</title>
     <link rel="stylesheet" href="{% static 'inventory/home.css' %}">
-</head>
-<body>
-    <div class="sidebar">
-        <div class="sidebar-icon">
-        <a href="{% url 'profile' %}">👤 Profile</a>
-        </div>
-        <div class="sidebar-icon">
-            <a href="{% url 'menuitem' %}">📅 Menu</a>
-        </div>
-        <div class="sidebar-icon">
-            <a href="{% url 'purchase-list' %}">📊 Purchases</a>
-        </div>
-        <div class="sidebar-icon">
-            <a href="{% url 'reciperequirement_create' %}">⚙️ Recipe Requirement</a>
-        </div>
-        <div class="sidebar-icon">
-            <a href="{% url 'profit_revenue' %}">📈 Profit & Revenue</a>
-        </div>
-        <div class="sidebar-icon">
-            <a href="{% url 'ingredientslist' %}">🛒 Inventory</a>
-        </div>
-        <div class="sidebar-icon">
-            <a href="{% url 'logout' %}">🔑 Log Out</a>
-        </div>
-    </div>
+{% endblock %}
+
+{% block content %}
     <div class="main-content">
         <div class="header">
             <div>
                 <h1>Welcome, Chef!</h1>
                 <p>Manage your recipes and menu</p>
             </div>
-            <input type="text" class="search-bar" placeholder="Search">
+            <input type="text" class="search-bar1" placeholder="Search">
             <img src="{% static '/inventory/images/healthy-food_6265674.png' %}" alt="Chef Avatar" class="chef-avatar">
         </div>
         
@@ -58,7 +34,7 @@
             <div class="grid-item">
                 <h2>Ingredient Inventory</h2>
                 <div>
-                    <button>Add new ingredient</button>
+                  <button class="add-item-btn"><a href="{% url 'ingredient-create' %}">Add Ingredient</a></button>
                     <p>Unit cost</p>
                     <p>Low stock alert</p>
                 </div>
@@ -103,10 +79,9 @@
                         <p>Enhance your dishes with</p>
                     </div>
                 </div>
-                <div class="button-group">
+                <div class="button-group1">
                     <button>Ingredient Cost calculation</button>
                     <button>Recipe Ingredient</button>
-                    <button>Cost Menu pricing</button>
                 </div>
             </div>
         </div>
@@ -145,5 +120,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

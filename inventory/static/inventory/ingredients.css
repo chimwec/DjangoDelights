@@ -81,8 +81,8 @@ h1 {
 
 .sidebar-icon a::before {
     content: attr(data-icon);
-    font-size: 18px; /* Adjust icon size */
-    margin-bottom: 20px; /* Space between icon and text */
+    font-size: 24px; /* Adjust icon size */
+    margin-bottom: 30px; /* Space between icon and text */
     text-align: center;
 }
 

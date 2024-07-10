@@ -14,7 +14,7 @@ body {
 
 .sidebar {
     width: 200px;
-    background-color: #d9534f;
+    background-color: #a23a2f;
     color: #fff;
     height: 100vh;
     padding-top: 20px;
@@ -144,7 +144,7 @@ button {
 
 button[type="button"] {
     background-color: #ccc;
-    color: black;
+    color: #a23a2f;
 }
 
 
@@ -207,7 +207,7 @@ input[type="text"], input[type="password"] {
 button {
     width: 100%;
     padding: 10px;
-    background-color: #000;
+    background-color: #a23a2f;
     color: white;
     border: none;
     border-radius: 4px;
