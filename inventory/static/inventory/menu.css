@@ -1,0 +1,109 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFE4E1;
+    margin: 0;
+    padding: 20px;
+}
+
+.menu-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 300px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.menu-title {
+    text-align: center;
+    color: #FF69B4;
+    font-size: 3em;
+    margin-bottom: 0;
+}
+
+.restaurant-name {
+    text-align: center;
+    color: #4B0082;
+    font-size: 1.2em;
+    margin-top: 5px;
+}
+
+.menu-icons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.menu-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 15px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.menu-section {
+    margin-bottom: 30px;
+}
+
+.menu-section h2 {
+    background-color: #4B0082;
+    color: white;
+    padding: 10px 15px;
+    display: inline-block;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    text-transform: lowercase;
+}
+
+.menu-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-section li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #4B0082;
+}
+
+.item-price {
+    color: #FF69B4;
+}
+
+
+.extras h2 {
+    background-color: transparent;
+    color: #4B0082;
+}
+
+.menu-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.add-item-btn, .back-home-btn {
+    display: inline-block;
+    background-color: #4B0082;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 0 10px;
+    transition: background-color 0.3s;
+}
+
+.add-item-btn:hover, .back-home-btn:hover {
+    background-color: #6A5ACD;
+}
+
+@media (max-width: 768px) {
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+}

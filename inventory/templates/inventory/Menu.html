@@ -1,42 +1,65 @@
-
 {% extends 'inventory/base.html' %}
 {% load static %}
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/menu.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="table-page">
-  <div class="table-content">
-    <p class="create_btn"><a href="{% url 'menuitem-create' %}">Add Menu</a></p>
-
-    <hr class="line">
-    <h2>Available Menu Items</h2>
-    <table class="table">
-      <tr class="table-header">
-        <tr class="">
-          <th class="header-row-1" >Name</th>
-          <th class="header-row-2">Price</th>
-          <th class="header-row-3">Action</th>
-        </tr>
-      </tr>
-<!-- add the button to add the menu in the purchase -->
-
-      {% for menu in menu %}
-        <tr>
-
-          <td class="table-row-1"><a href="{% url 'menuitemdetail' menu.id %}">{{ menu.name | title }}</a></td>
-          <td class="table-row-2">{{ menu.price }} </td>
-          <td class="table-row-3">
-            <a href="{% url 'menuitem_delete' menu.id %}" class="delete btn">Delete</a>
-          </td>
-        </tr> 
-      {% endfor %}
-    </table>
+<main class="menu-container">
+  <h1 class="menu-title">MENU</h1>
+  <p class="restaurant-name">restaurant</p>
+  
+  <div class="menu-icons">
+    <img src="{% static 'inventory/images/burger_1161644.png' %}" alt="Burger" class="menu-icon">
+    <img src="{% static 'inventory/images/pizza_1274507.png' %}" alt="Pizza" class="menu-icon">
+    <img src="{% static 'inventory/images/cocktail_572391.png' %}" alt="Drink" class="menu-icon">
   </div>
-  <a href="{% url 'home' %}">Back home</a>
 
- 
-</div>
+  <div class="menu-grid">
+    <section class="menu-section burgers">
+      <h2>menu</h2>
+      <ul>
+        <div class="recipe-requirements"></div>
+        {% for menu in menu %}
+          <li>
+            <span class="item-name"><a href="{% url 'menuitemdetail' menu.id %}">{{ menu.name | title }}</a></span>
+            <span class="item-price">${{ menu.price|floatformat:2 }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+
+    <section class="menu-section drinks">
+      <h2>prices</h2>
+      <ul>
+        {% for price in prices %}
+          <li>
+            <span class="item-name">{{ price.name }}</span>
+            <span class="item-price">${{ menu.price|floatformat:2 }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="menu-section delete">
+      <h2>delete</h2>
+      <ul>
+        {% for dessert in desserts %}
+          <li>
+            <span class="item-name">{{ dessert.name }}</span>
+            <span class="item-price">${{ dessert.price|floatformat:2 }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+   
+
+  <div class="menu-footer">
+    <a href="{% url 'menuitem-create' %}" class="add-item-btn">Add Menu Item</a>
+    <a href="{% url 'home' %}" class="back-home-btn">Back home</a>
+  </div>
+</main>
 {% endblock %}

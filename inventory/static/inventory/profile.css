@@ -93,3 +93,25 @@ body {
 .back-link:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .left-panel {
+        display: none;
+    }
+    .right-panel {
+        flex: 1;
+        padding: 40px 20px;
+    }
+    .logo {
+        position: static;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h1 {
+        font-size: 2em;
+        text-align: center;
+    }
+}
