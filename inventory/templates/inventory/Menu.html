@@ -6,60 +6,32 @@
 {% endblock %}
 
 {% block content %}
-<main class="menu-container">
+<main>
   <h1 class="menu-title">MENU</h1>
-  <p class="restaurant-name">restaurant</p>
-  
-  <div class="menu-icons">
-    <img src="{% static 'inventory/images/burger_1161644.png' %}" alt="Burger" class="menu-icon">
-    <img src="{% static 'inventory/images/pizza_1274507.png' %}" alt="Pizza" class="menu-icon">
-    <img src="{% static 'inventory/images/cocktail_572391.png' %}" alt="Drink" class="menu-icon">
+
+  <div class="menu-input">
+      <button class="add-item-btn">
+        <a href="{% url 'menuitem-create' %}" class="add-item-btn">Add Menu Item</a>
+      </button>
   </div>
+      
+          {% for menu in menu %}
+          <div class="menu-card">
+              <div class="menu-info">
+                <span class="item-name"><a href="{% url 'menuitemdetail' menu.id %}">{{ menu.name | title }}</a></span>
 
-  <div class="menu-grid">
-    <section class="menu-section burgers">
-      <h2>menu</h2>
-      <ul>
-        <div class="recipe-requirements"></div>
-        {% for menu in menu %}
-          <li>
-            <span class="item-name"><a href="{% url 'menuitemdetail' menu.id %}">{{ menu.name | title }}</a></span>
-            <span class="item-price">${{ menu.price|floatformat:2 }}</span>
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
+                <p class="item-pricep">Price: ${{ menu.price }}</p>
+              </div>
+              <div class="menu-actions">
+                <a href="{% url 'menuitem_delete' menu.id %}" class="delete-btn">Delete</a>
+              </div>
+          </div>
+          {% endfor %}
+        
 
-
-    <section class="menu-section drinks">
-      <h2>prices</h2>
-      <ul>
-        {% for price in prices %}
-          <li>
-            <span class="item-name">{{ price.name }}</span>
-            <span class="item-price">${{ menu.price|floatformat:2 }}</span>
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
-
-    <section class="menu-section delete">
-      <h2>delete</h2>
-      <ul>
-        {% for dessert in desserts %}
-          <li>
-            <span class="item-name">{{ dessert.name }}</span>
-            <span class="item-price">${{ dessert.price|floatformat:2 }}</span>
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
-
-   
-
-  <div class="menu-footer">
-    <a href="{% url 'menuitem-create' %}" class="add-item-btn">Add Menu Item</a>
-    <a href="{% url 'home' %}" class="back-home-btn">Back home</a>
-  </div>
+    <div class="menu-footer">
+      <a href="{% url 'home' %}" class="back-home-btn">Back home</a>
+    </div>
 </main>
+
 {% endblock %}
