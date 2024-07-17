@@ -249,3 +249,8 @@ button {
         text-align: center;
     }
 }
+
+
+.message {
+    color: red;
+}

@@ -176,29 +176,36 @@ class MenuItemDelete(DeleteView):
 
 
   # decreasing ingredient.quantity because ingredients were used for the purchased menu_item, have to finish the automatic subtractions in the inventory ingredients
-    
-def form_valid(self, form):
-    item = form.save(commit=False) #we have changed to True from False
-    menu_item = MenuItem.objects.get(id = item.menu_item.id)
-    recipe_requirements = RecipeRequirement.objects.filter(menu_item = menu_item)
-    errors_list = []
-    print(menu_item)
 
-    for i in recipe_requirements:
-      if (i.ingredient.quantity - i.quantity) >= 0:
-        print(i)
-      else:
-        errors_list.append(i.ingredient.name)
-    if (errors_list.__len__() == 0):
-      i.ingredient.quantity -= i.quantity
-      i.ingredient.save()
-      item.save()
-      messages.success(self.request, "successful") #i removed the # to see what happens
-      return super(PurchaseCreate, self).form_valid(form)
-    else:
-      error_string = ", ".join(errors_list)
-      messages.error(self.request, f"not enough ingredients in the inventory! ({error_string})")
-      return self.render_to_response(self.get_context_data(form=form))
+def form_valid(self, form):
+    item = form.save(commit=False)
+    menu_item = MenuItem.objects.get(id=item.menu_item.id)
+    recipe_requirements = RecipeRequirement.objects.filter(menu_item=menu_item)
+    errors_list = []
+
+    try:
+        with transaction.atomic():
+            for requirement in recipe_requirements:
+                if requirement.ingredient.quantity < requirement.quantity:
+                    errors_list.append(requirement.ingredient.name)
+                    
+            if errors_list:
+                error_string = ", ".join(errors_list)
+                raise ValueError(f"Not enough ingredients in the inventory! ({error_string})")
+
+            # Update ingredient quantities
+            for requirement in recipe_requirements:
+                requirement.ingredient.quantity = F('quantity') - requirement.quantity
+                requirement.ingredient.save()
+
+            item.save()
+
+    except ValueError as e:
+        messages.error(self.request, str(e))
+        return self.render_to_response(self.get_context_data(form=form))
+
+    messages.success(self.request, "Purchase successful")
+    return super(PurchaseCreate, self).form_valid(form)
     
 
 
@@ -240,24 +247,36 @@ def profit_revenue(request):
 
     return render(request, "inventory/profit_revenue.html", context)
         
+        
 
-
-class IngredientDetail(LoginRequiredMixin,DetailView):
+class IngredientDetail(LoginRequiredMixin, DetailView):
+    # This view displays details of a single Ingredient object
+    
+    # Specify the model this view is associated with
     model = Ingredient
+    
+    # Specify the template to be used for rendering this view
     template_name = "inventory/ingredient_details.html"
     
     def get_context_data(self, **kwargs):
-        context = super(IngredientDetail,self).get_context_data(**kwargs)
-        context['object'] = self.object
-        ingredient = Ingredient.objects.get(id=context['object'].pk)
-        recipe_requirements_list = []
-        for item in context['object'].reciperequirement_set.all():
-            recipe_requirements_list.append(item)
-        context = {
-           'ingredient':ingredient,
-           'recipe_requirements_list': recipe_requirements_list
-        }
+        # Override the get_context_data method to customize the context
+        # sent to the template
+        
+        # Call the parent class's get_context_data to get the default context
+        context = super().get_context_data(**kwargs)
+        
+        # Add the list of related RecipeRequirement objects to the context
+        # self.object refers to the current Ingredient instance
+        # reciperequirement_set is a reverse relation to all RecipeRequirement
+        # objects that reference this Ingredient
+        context['recipe_requirements_list'] = self.object.reciperequirement_set.all()
+        
+        # Return the updated context
         return context
+
+    # Note: In the template, you can now access:
+    # - {{ object }} or {{ ingredient }} to get the Ingredient instance
+    # - {{ recipe_requirements_list }} to get all related RecipeRequirement objects
 
 
 class MenuItemDetail(DetailView):
