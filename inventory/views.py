@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from inventory.models import MenuItem, Ingredient, RecipeRequirement, Purchase, Profile
-from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm, ProfileForm, SignUpForm # Assuming you have a form for purchase details
+from .forms import PurchaseForm, IngredientForm, MenuItemForm, RecipeRequirementForm, ProfileForm, SignUpForm 
 from django.views.generic import TemplateView, ListView, DetailView
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField, OuterRef, Subquery
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
@@ -111,6 +111,41 @@ class PurchaseList(LoginRequiredMixin,ListView):
 
 
 
+  # decreasing ingredient.quantity because ingredients were used for the purchased menu_item, have to finish the automatic subtractions in the inventory ingredients
+
+def form_valid(self, form):
+    item = form.save(commit=False)
+    menu_item = MenuItem.objects.get(id=item.menu_item.id)
+    recipe_requirements = RecipeRequirement.objects.filter(menu_item=menu_item)
+    errors_list = []
+
+    try:
+        with transaction.atomic():
+            for requirement in recipe_requirements:
+                if requirement.ingredient.quantity < requirement.quantity:
+                    errors_list.append(requirement.ingredient.name)
+                    
+            if errors_list:
+                error_string = ", ".join(errors_list)
+                raise ValueError(f"Not enough ingredients in the inventory! ({error_string})")
+
+            # Update ingredient quantities
+            for requirement in recipe_requirements:
+                requirement.ingredient.quantity = F('quantity') - requirement.quantity
+                requirement.ingredient.save()
+
+            item.save()
+
+    except ValueError as e:
+        messages.error(self.request, str(e))
+        return self.render_to_response(self.get_context_data(form=form))
+
+    messages.success(self.request, "Purchase successful")
+    return super(PurchaseCreate, self).form_valid(form)
+    
+
+
+
 
 # all createview below
 
@@ -175,38 +210,6 @@ class MenuItemDelete(DeleteView):
 
 
 
-  # decreasing ingredient.quantity because ingredients were used for the purchased menu_item, have to finish the automatic subtractions in the inventory ingredients
-
-def form_valid(self, form):
-    item = form.save(commit=False)
-    menu_item = MenuItem.objects.get(id=item.menu_item.id)
-    recipe_requirements = RecipeRequirement.objects.filter(menu_item=menu_item)
-    errors_list = []
-
-    try:
-        with transaction.atomic():
-            for requirement in recipe_requirements:
-                if requirement.ingredient.quantity < requirement.quantity:
-                    errors_list.append(requirement.ingredient.name)
-                    
-            if errors_list:
-                error_string = ", ".join(errors_list)
-                raise ValueError(f"Not enough ingredients in the inventory! ({error_string})")
-
-            # Update ingredient quantities
-            for requirement in recipe_requirements:
-                requirement.ingredient.quantity = F('quantity') - requirement.quantity
-                requirement.ingredient.save()
-
-            item.save()
-
-    except ValueError as e:
-        messages.error(self.request, str(e))
-        return self.render_to_response(self.get_context_data(form=form))
-
-    messages.success(self.request, "Purchase successful")
-    return super(PurchaseCreate, self).form_valid(form)
-    
 
 
 
@@ -247,7 +250,7 @@ def profit_revenue(request):
 
     return render(request, "inventory/profit_revenue.html", context)
         
-        
+
 
 class IngredientDetail(LoginRequiredMixin, DetailView):
     # This view displays details of a single Ingredient object

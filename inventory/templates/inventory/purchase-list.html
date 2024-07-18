@@ -3,12 +3,13 @@
 {% load static %}
 
 {% block head %}
-  <link rel="stylesheet" href="{% static 'inventory/main.css' %}">
+  <link rel="stylesheet" href="{% static 'inventory/purchase.css' %}">
 
   <title>{% block title %}SupplySmart{% endblock %}</title>
 {% endblock %}
 
 {% block content %}
+<main>
 <div class="table-page">
   {% if messages %}
     <div class="message">
@@ -19,8 +20,7 @@
   {% endif %}
 
   <div class="table-content">
-    <hr class="line">
-    <h2>Purchases History</h2>
+    <h2>Purchase History</h2>
     <table class="table">
       <tr class="table-header">
         <tr class="">
@@ -39,10 +39,11 @@
 
     </table>
   </div>
-</div>
-</div>
-</div>
-<a href="{% url 'purchase_create' %}">🛒 Add purchase</a>
-<a href="{% url 'home' %}">🏠Back home</a>
 
+  <div class="footer"> 
+    <a href="{% url 'purchase_create' %}" class="purchase-btn">Add purchase</a>
+    <a href="{% url 'home' %}" class="back-btn">Back home</a>
+  </div>
+</div>
+</main>
 {% endblock %}

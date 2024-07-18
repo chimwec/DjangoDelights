@@ -76,29 +76,6 @@ header input[type="search"] {
     height: 200px; /* Adjust height as needed */
 }
 
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    margin: 0;
-    height: 100vh;
-}
-
-.sidebar {
-    background-color: #a23a2f;
-    color: white;
-    width: 200px;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar li {
-    margin: 20px 0;
-}
 
 .sidebar .active {
     font-weight: bold;
@@ -134,7 +111,7 @@ form .recipe-type {
     justify-content: space-between;
 }
 
-button {
+.button {
     background-color: #a23a2f;
     color: white;
     border: none;
@@ -142,7 +119,7 @@ button {
     cursor: pointer;
 }
 
-button[type="button"] {
+.button[type="button"] {
     background-color: #ccc;
     color: #a23a2f;
 }
@@ -204,7 +181,7 @@ input[type="text"], input[type="password"] {
     border-radius: 4px;
 }
 
-button {
+.button {
     width: 100%;
     padding: 10px;
     background-color: #a23a2f;
@@ -250,7 +227,11 @@ button {
     }
 }
 
-
 .message {
     color: red;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
 }

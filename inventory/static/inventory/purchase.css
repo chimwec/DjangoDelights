@@ -1,0 +1,70 @@
+
+
+
+/* Styles for the table content */
+.table-content {
+    font-size: 30px;
+    font-family: Arial, sans-serif;
+}
+
+/* Footer styles */
+.footer {
+    display: flex;
+    margin-top: 200px;
+}
+
+/* Styles for purchase and back buttons */
+.purchase-btn, .back-btn {
+    padding: 20px 100px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #a23a2f;
+}
+
+/* Hover effect for buttons */
+.purchase-btn:hover, .back-btn:hover {
+    opacity: 0.9;
+}
+
+/* Styles for the first table row */
+.table-row-1 {
+    color: #FF69B4; /* Hot pink color */
+    margin: 50px;
+    text-align: center;
+}
+
+/* Styles for the second table row */
+.table-row-2 {
+    color: #FF69B4; /* Hot pink color */
+    margin: 50px;
+    text-align: center;
+}
+
+/* Styles for h2 elements */
+.h2 {
+    text-align: center;
+}
+
+/* Table layout styles */
+.table {
+    table-layout: fixed;
+    width: 80%;
+}
+
+/* The purchase time layout */
+.header-row-1 {
+    color: black;
+    font-size: 40px;
+    margin: 100%; /* have to change this */
+}
+
+
+/* The purchase item layout */
+.header-row-2 {
+    color: black;
+    font-size: 40px;
+}
