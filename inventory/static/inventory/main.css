@@ -90,26 +90,28 @@ h1 {
     margin-top: 0;
 }
 
-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
 .form-group {
     display: flex;
     flex-direction: column;
 }
 
-form .recipe-type {
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+
+.form.recipe-type {
     grid-column: 1 / -1;
 }
 
-.buttons {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: space-between;
+
+.menu-item {
+    display: inline;
 }
+
 
 .button {
     background-color: #a23a2f;

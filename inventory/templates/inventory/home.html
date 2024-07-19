@@ -10,7 +10,9 @@
     <div class="main-content">
         <div class="header">
             <div>
-                <h1>Welcome, Chef!</h1>
+                {% if user.username %}
+                <h1 class="greet">Welcome! {{user.username}}</h1>
+                {% endif %}
                 <p>Manage your recipes and menu</p>
             </div>
             <input type="text" class="search-bar1" placeholder="Search">
@@ -76,11 +78,11 @@
                     <img src="{% static '/inventory/images/harvest.png' %}" alt="Secret ingredient">
                     <div>
                         <strong>Secret ingredient in Q3</strong>
-                        <p>Enhance your dishes with</p>
+                        <p>Enhance your dishes</p>
                     </div>
                 </div>
                 <div class="button-group1">
-                    <button>Ingredient Cost calculation</button>
+                    <button class="register-btn"><a href="{% url 'register' %}">Register</a></button>
                     <button>Recipe Ingredient</button>
                 </div>
             </div>

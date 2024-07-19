@@ -90,11 +90,20 @@ body {
     border: none;
     border-radius: 5px;
     color: white;
+    background-color: #a23a2f;
     font-weight: bold;
     cursor: pointer;
     width: 45%; /* Adjust this value to control button width */
 }
 
+/* this is for the register btn in the home.html*/
+.register-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: green;
+}
 
 .inventory-section {
     margin-top: 20px;

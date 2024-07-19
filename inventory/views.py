@@ -16,22 +16,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-
+from django.views import View
 
 
 # Create your views here.
  #login our customer
-class HomeView(LoginRequiredMixin, TemplateView):
-   template_name = 'inventory/home.html'
-
-   def get_context_data(self):
-       context = super().get_context_data()
-       context["ingredients"] = Ingredient.objects.all()
-       context["menu"] = MenuItem.objects.all()
-       context["purchase"] = Purchase.objects.all()
-       context["reciperequirement"] = RecipeRequirement.objects.all()
-       return context
-   
+class HomeView(LoginRequiredMixin, View):
+    def get(self, request):
+        context = {
+            "name": request.user,
+            "ingredients": Ingredient.objects.all(),
+            "menu": MenuItem.objects.all(),
+            "purchase": Purchase.objects.all(),
+            "reciperequirement": RecipeRequirement.objects.all(),
+        }
+        return render(request, 'inventory/home.html', context)
 
 
 #
@@ -40,20 +39,27 @@ class HomeView(LoginRequiredMixin, TemplateView):
 # After successful validation, the user is logged in automatically.
 #
 # If the request method is GET, displays a blank registration form.
+
+
 def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            #we create the user object
+            user = form.save()
             username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1') #Hash password
+            raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('inventory/.html')
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Account created for {username}. You are now logged in.')
+                return redirect(reverse('home'))  # Assuming you have a named URL pattern
+            else:
+                messages.error(request, 'An error occurred during registration. Please try again.')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
-         form = SignUpForm()
-    return render(request, 'games/register.html', {'form': form}) 
+        form = SignUpForm()
+    return render(request, 'inventory/register.html', {'form': form})
 
 
 
@@ -101,9 +107,8 @@ class MenuItemView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         return MenuItem.objects.all()
 
-    
 
-# this view shows the purchses made 
+# this view shows the purchases made 
 class PurchaseList(LoginRequiredMixin,ListView):
     model = Purchase
     template_name = 'inventory/purchase-list.html'
@@ -180,6 +185,12 @@ class ProfileCreate(LoginRequiredMixin,CreateView):
     model = Profile
     form_class = ProfileForm
     template_name = 'inventory/profile.html'
+
+
+class Register(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "inventory/register.html"
 
 
 

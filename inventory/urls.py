@@ -1,7 +1,7 @@
 from django.urls import path, include
 from . import views
 from django.conf import settings
-from .views import logout_request
+from .views import logout_request, Register
 
 
 urlpatterns = [
@@ -22,4 +22,5 @@ urlpatterns = [
     path('accounts/profile/', views.ProfileCreate.as_view(), name='profile'),
     path('accounts/login/', views.LoginView.as_view(), name='login'),
     path('accounts/logout/', logout_request, name='logout'),
+    path('accounts/register/', Register.as_view(), name='register'),
 ]

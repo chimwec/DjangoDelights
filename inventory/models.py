@@ -75,14 +75,13 @@ class Purchase(models.Model):
     def __str__(self):
         return f"{self.menu_item} was purchased at {self.timestamp}"
     
-#i have to make a migration first
+
 class Profile(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
     email = models.EmailField(max_length=254, unique=True)
     bio = models.TextField(max_length=500, blank=True)
-    # add more fields here
-    #...
+  
     
     def get_absolute_url(self):
         return "/profile"

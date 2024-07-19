@@ -21,23 +21,19 @@
         {% endif %}
 
         <form method="post">
+          
             {% csrf_token %}
-            <div class="recipe-type">
-                <label>Recipe type</label>
-                <input type="radio" name="type" value="main"> Main
-                <input type="radio" name="type" value="dessert"> Dessert
-                <input type="radio" name="type" value="appetiz"> Appetiz
-            </div>
-            
+          
             <div class="menu-item">
               <img src="{% static '/inventory/images/pexels-eva-bronzini-5502851.jpg' %}" alt="image1">
             </div>
+
             <div class="menu-item">
               <img src="{% static '/inventory/images/pexels-mali-141815.jpg' %}" alt="image2">
             </div>
-            
-            {{ form.as_p }}
 
+            {{ form.as_p }}
+            
             <div class="menu-item">
               <img src="{% static '/inventory/images/pexels-monicore-2624397.jpg' %}" alt="image3">
             </div>
