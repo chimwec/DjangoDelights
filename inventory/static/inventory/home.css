@@ -134,3 +134,11 @@ body {
     color: white;
 }
 
+/* Responsive adjustments */
+@media screen and (max-width: 700px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+}/*i want to make this responsive i opened the w3 tutorial*/
+

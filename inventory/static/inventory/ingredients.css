@@ -183,7 +183,7 @@ main {
 /* ... (styles for right column content remain unchanged) ... */
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 700px) {
     .recipe-requirements {
         flex-direction: column;
     }

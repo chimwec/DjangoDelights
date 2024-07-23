@@ -55,3 +55,15 @@ body {
     margin-right: 10px;
     object-fit: cover;
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .recipe-requirements {
+        flex-direction: column;
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+    }
+}

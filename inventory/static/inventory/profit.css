@@ -1,0 +1,65 @@
+/*for the profit html*/
+.table-content {
+    font-size: 30px;
+    font-family: Arial, sans-serif;
+    
+}
+
+.table-row-1 {
+    color: #FF69B4; /* Hot pink color */
+    margin: 50px;
+    text-align: center;
+}
+
+.table-row-2 {
+    color: #FF69B4; /* Hot pink color */
+    margin: 50px;
+    text-align: center;
+}
+
+/* Styles for h2 elements */
+h2 {
+    text-align: center;
+    font-size: 50px;
+}
+
+
+/* Table layout styles */
+.table-header {
+    table-layout: fixed;
+    width: 80%;
+}
+
+.header-row-1 {
+    color: black;
+    font-size: 40px;
+    margin: 100%;
+    text-align: center;
+}
+
+/* The purchase item layout */
+.header-row-2 {
+    color: black;
+    font-size: 40px;
+    margin: 100%;
+    text-align: center;
+}
+
+/* Footer styles */
+.footer {
+    display: flex;
+    margin-top: 200px;
+    position: fixed;
+}
+
+.back-btn {
+    padding: 20px 100px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #a23a2f;
+    margin-top: 100px;
+
+}

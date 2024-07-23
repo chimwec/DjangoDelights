@@ -207,7 +207,7 @@ input[type="text"], input[type="password"] {
     max-width: 300px;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 700px) {
     .container {
         flex-direction: column;
     }
@@ -223,10 +223,23 @@ input[type="text"], input[type="password"] {
         text-align: center;
         margin-bottom: 20px;
     }
-    h1 {
+    .h1 {
         font-size: 2em;
         text-align: center;
     }
+    .sidebar {
+            width: 200px;
+            background-color: #a23a2f;
+            color: #fff;
+            height: 100vh;
+            padding-top: 20px;
+            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+            z-index: 1; /* Stay on top */
+            top: 0; /* Stay at the top */
+            left: 0;
+        
+    }
+    .sidebar a {font-size: 18px;}
 }
 
 .message {
